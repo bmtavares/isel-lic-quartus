@@ -1,0 +1,13 @@
+# Ignore EVERYTHING
+*
+
+# Track gitignore itself
+!.gitignore
+
+# Whitelist testbenches folder
+!testbenches/
+
+# Whitelist main project files
+!*.vhd
+!*.qpf
+!*.qsf
