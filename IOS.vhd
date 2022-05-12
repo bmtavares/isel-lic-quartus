@@ -39,6 +39,7 @@ COMPONENT clkDIV
 		clk_in : IN STD_LOGIC;
 		clk_out : OUT STD_LOGIC
 	);
+END COMPONENT;
 
 SIGNAL sig_DXval, sig_done_accept, sig_clkDivided : STD_LOGIC;
 SIGNAL sig_D : STD_LOGIC_VECTOR(9 downto 0);
@@ -46,7 +47,7 @@ SIGNAL sig_D : STD_LOGIC_VECTOR(9 downto 0);
 BEGIN
 
 uClkDIV:clkDIV
-	GENERIC MAP ( 24 );
+	GENERIC MAP ( div => 26000 )
 	PORT MAP (
 		clk_in 	=> clk,
 		clk_out	=> sig_clkDivided
