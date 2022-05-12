@@ -32,34 +32,49 @@ COMPONENT Dispatcher
 	);
 END COMPONENT;
 
-SIGNAL sig_DXval, sig_done_accept : STD_LOGIC;
+
+COMPONENT clkDIV
+	GENERIC (div : NATURAL);
+	PORT (
+		clk_in : IN STD_LOGIC;
+		clk_out : OUT STD_LOGIC
+	);
+
+SIGNAL sig_DXval, sig_done_accept, sig_clkDivided : STD_LOGIC;
 SIGNAL sig_D : STD_LOGIC_VECTOR(9 downto 0);
 
 BEGIN
 
+uClkDIV:clkDIV
+	GENERIC MAP ( 24 );
+	PORT MAP (
+		clk_in 	=> clk,
+		clk_out	=> sig_clkDivided
+	);
 
-uSerialReceiver:SerialReceiver PORT MAP(
-	DXval => sig_DXval,
-	D => sig_D,
-	notSS => notSS,
-	busy => busy,
-	accept => sig_done_accept,
-	SCLK =>SCLK,
-	SDX => SDX,
-	clk => clk
+uSerialReceiver:SerialReceiver
+	PORT MAP(
+		DXval  => sig_DXval,
+		D 		 => sig_D,
+		notSS  => notSS,
+		busy 	 => busy,
+		accept => sig_done_accept,
+		SCLK 	 => SCLK,
+		SDX 	 => SDX,
+		clk 	 => clk
 	);
 	
 	
-uDispatcher:Dispatcher PORT MAP(
-	Dout =>  Dout,
-	clk  =>   clk,
-	Fsh  =>   Fsh,
-	Dval => sig_DXval,
-	Din	 =>   sig_D,
-	wrt  =>   wrt,
-	wrl  =>   wrl,
-	done =>  sig_done_accept 
-	
+uDispatcher:Dispatcher
+	PORT MAP(
+		Dout 	=> Dout,
+		clk  	=> sig_clkDivided,
+		Fsh  	=> Fsh,
+		Dval 	=> sig_DXval,
+		Din	=> sig_D,
+		wrt  	=> wrt,
+		wrl  	=> wrl,
+		done 	=> sig_done_accept 
 	);	
 
 

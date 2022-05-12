@@ -94,6 +94,13 @@ Architecture accHW of HW is
 		-- Assignments for LCD
 		LCD_EN 	<= Swrl;
 		LCD_RS 	<= SDout(0);
-		LCD_DATA <= SDout(8 downto 1);
+		LCD_DATA(0) <= SDout(8);
+		LCD_DATA(1) <= SDout(7);
+		LCD_DATA(2) <= SDout(6);
+		LCD_DATA(3) <= SDout(5);
+		LCD_DATA(4) <= SDout(4);
+		LCD_DATA(5) <= SDout(3);
+		LCD_DATA(6) <= SDout(2);
+		LCD_DATA(7) <= SDout(1);
 
 END accHW;
