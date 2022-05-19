@@ -7,7 +7,7 @@ entity HW is
 	LCD_RS, LCD_EN : OUT STD_LOGIC;
 	HEX0,HEX1,HEX2,HEX3,HEX4, HEX5 : OUT STD_LOGIC_VECTOR(7 downto 0) := "00000000";
 	LCD_DATA : OUT STD_LOGIC_VECTOR(7 downto 0);
-	pinsDebug : OUT STD_LOGIC_VECTOR(7 downto 0) := "00000000"
+	pinsDebug : OUT STD_LOGIC_VECTOR(9 downto 0) := "0000000000"
 	);
 end HW;
 
@@ -94,13 +94,24 @@ Architecture accHW of HW is
 		-- Assignments for LCD
 		LCD_EN 	<= Swrl;
 		LCD_RS 	<= SDout(0);
-		LCD_DATA(0) <= SDout(8);
-		LCD_DATA(1) <= SDout(7);
-		LCD_DATA(2) <= SDout(6);
-		LCD_DATA(3) <= SDout(5);
-		LCD_DATA(4) <= SDout(4);
-		LCD_DATA(5) <= SDout(3);
-		LCD_DATA(6) <= SDout(2);
-		LCD_DATA(7) <= SDout(1);
+		LCD_DATA(0) <= SDout(1);
+		LCD_DATA(1) <= SDout(2);
+		LCD_DATA(2) <= SDout(3);
+		LCD_DATA(3) <= SDout(4);
+		LCD_DATA(4) <= SDout(5);
+		LCD_DATA(5) <= SDout(6);
+		LCD_DATA(6) <= SDout(7);
+		LCD_DATA(7) <= SDout(8);
+		
+		pinsDebug(0) <= SDout(0);
+		pinsDebug(1) <= SDout(1);
+		pinsDebug(2) <= SDout(2);
+		pinsDebug(3) <= SDout(3);
+		pinsDebug(4) <= SDout(4);
+		pinsDebug(5) <= SDout(5);
+		pinsDebug(6) <= SDout(6);
+		pinsDebug(7) <= SDout(7);
+		pinsDebug(8) <= SDout(8);
+		pinsDebug(9) 	<= Swrl;
 
 END accHW;
