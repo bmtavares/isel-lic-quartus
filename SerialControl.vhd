@@ -19,7 +19,7 @@ architecture behaviour of SerialControl is
 		);
 	
 	
-	SIGNAL CurrentState : STATE_TYPE := STATE_READY;
+	SIGNAL CurrentState : STATE_TYPE := STATE_WAITING_ACK;
 	SIGNAL NextState : STATE_TYPE := STATE_READY;
 	
 	BEGIN
@@ -68,7 +68,7 @@ architecture behaviour of SerialControl is
 				end case;				
 		end process;
 				
-	init <= '1' when CurrentState=STATE_READY else '0';
+	init <= '1' when CurrentState=STATE_WAITING_ACK else '0';
 	wr <= '1' when CurrentState=STATE_READING_DX else '0';
 	DXval <= '1' when CurrentState=STATE_SENDING else '0';
 	busy <= '1' when (CurrentState=STATE_SENDING OR CurrentState=STATE_WAITING_ACK) else '0';

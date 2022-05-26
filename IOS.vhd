@@ -25,7 +25,7 @@ END COMPONENT;
 
 COMPONENT Dispatcher
 	port(
-		clk,Fsh,Dval : in STD_LOGIC;
+		dclk,Fsh,Dval : in STD_LOGIC;
 		Din : in STD_LOGIC_VECTOR(9 downto 0);
 		wrt,wrl,done : out STD_LOGIC;
 		Dout : out STD_LOGIC_VECTOR(8 downto 0)
@@ -47,7 +47,7 @@ SIGNAL sig_D : STD_LOGIC_VECTOR(9 downto 0);
 BEGIN
 
 uClkDIV:clkDIV
-	GENERIC MAP ( div => 26000 )
+	GENERIC MAP ( div => 2600000 )
 	PORT MAP (
 		clk_in 	=> clk,
 		clk_out	=> sig_clkDivided
@@ -69,7 +69,7 @@ uSerialReceiver:SerialReceiver
 uDispatcher:Dispatcher
 	PORT MAP(
 		Dout 	=> Dout,
-		clk  	=> sig_clkDivided,
+		dclk  	=> sig_clkDivided,
 		Fsh  	=> Fsh,
 		Dval 	=> sig_DXval,
 		Din	=> sig_D,

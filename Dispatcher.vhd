@@ -3,7 +3,7 @@ use IEEE.STD_LOGIC_1164.ALL;
 
 entity Dispatcher is
 	port(
-		clk,Fsh,Dval : in STD_LOGIC;
+		dclk,Fsh,Dval : in STD_LOGIC;
 		Din : in STD_LOGIC_VECTOR(9 downto 0);
 		wrt,wrl,done : out STD_LOGIC;
 		Dout : out STD_LOGIC_VECTOR(8 downto 0)
@@ -27,7 +27,7 @@ architecture behaviour of Dispatcher is
 	SIGNAL NextState : STATE_TYPE := STATE_START_UP;
 	
 	BEGIN
-	CurrentState <= NextState when rising_edge(clk);
+	CurrentState <= NextState when rising_edge(dclk);
 	
 	GenerateNextState:
 		process (CurrentState, Fsh, Dval, Din)

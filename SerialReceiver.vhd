@@ -46,7 +46,10 @@ SIGNAL sig_out_D : STD_LOGIC_VECTOR(3 downto 0);
 SIGNAL sig_D : STD_LOGIC_VECTOR(9 downto 0);
 
 BEGIN
-
+	sig_dFlag <= '1' when sig_out_D = "1010" else '0';
+	
+	sig_pFlag <= '1' when sig_out_D = "1011" else '0';
+	
     uSerialControl:SerialControl PORT MAP(
 		clk => clk,
 		notSS => notSS,
