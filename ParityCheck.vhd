@@ -14,8 +14,9 @@ SIGNAL temp_D : std_logic := '0';
 
 BEGIN
 
-	temp_D <= 	temp_D xor data when (rising_edge(clk) and (init = '0'))
-					else '0' when (rising_edge(clk) and init = '1') else temp_D;
+	temp_D <= 	'0' when (init = '1')
+					else temp_D xor data when (rising_edge(clk) and (init = '0'))
+					else temp_D;
 					
 	err <= temp_D;
 

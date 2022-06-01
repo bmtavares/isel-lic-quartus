@@ -3,7 +3,8 @@ use IEEE.std_logic_1164.all;
 
 entity HW is
 	port (
-	clk, Sensor : IN STD_LOGIC;
+	clk, Sensor, SWITCH1 : IN STD_LOGIC;
+	KEY : IN STD_LOGIC_VECTOR(1 downto 0);
 	LCD_RS, LCD_EN : OUT STD_LOGIC;
 	HEX0,HEX1,HEX2,HEX3,HEX4, HEX5 : OUT STD_LOGIC_VECTOR(7 downto 0) := "00000000";
 	LCD_DATA : OUT STD_LOGIC_VECTOR(7 downto 0);
@@ -15,7 +16,7 @@ Architecture accHW of HW is
 	-- Components
 	COMPONENT IOS
 		PORT (
-		clk, SCLK, SDX, notSS, Fsh : in std_logic;
+		clk, SCLK, SDX, notSS, Fsh, reset : in std_logic;
 		busy : out std_logic;
 		wrt,wrl : out STD_LOGIC;
 		Dout : out STD_LOGIC_VECTOR(8 downto 0)
@@ -41,6 +42,7 @@ Architecture accHW of HW is
 
 	-- Signals
 	signal Swrt, Swrl, Sfn : STD_LOGIC;
+	signal sig_mReset : STD_LOGIC := '1';
 	signal SinputPort, SoutputPort : STD_LOGIC_VECTOR(7 DOWNTO 0);
 	signal SDout : STD_LOGIC_VECTOR(8 downto 0);
 
@@ -60,7 +62,8 @@ Architecture accHW of HW is
 			busy 	=> SinputPort(3),
 			wrt 	=> Swrt,
 			wrl 	=> Swrl,     
-			Dout 	=> SDout
+			Dout 	=> SDout,
+			reset => sig_mReset
 			);
 
 
@@ -91,6 +94,9 @@ Architecture accHW of HW is
 		--pinsDebug(1) <= SinputPort(3);
 
 
+		-- Reset button
+		sig_mReset <= '0';
+		
 		-- Assignments for LCD
 		LCD_EN 	<= Swrl;
 		LCD_RS 	<= SDout(0);
@@ -112,6 +118,6 @@ Architecture accHW of HW is
 		pinsDebug(6) <= SDout(6);
 		pinsDebug(7) <= SDout(7);
 		pinsDebug(8) <= SDout(8);
-		pinsDebug(9) 	<= Swrl;
+		pinsDebug(9) <= Swrl;
 
 END accHW;

@@ -3,7 +3,7 @@ USE ieee.std_logic_1164.ALL;
 
 ENTITY SerialReceiver IS
 PORT(
-   clk, SCLK, SDX, notSS, accept : in std_logic;
+   clk, SCLK, SDX, notSS, accept, reset : in std_logic;
    busy, DXval : out std_logic;
 	D : out std_logic_vector(9 downto 0)
 );
@@ -15,7 +15,7 @@ ARCHITECTURE behaviour OF SerialReceiver IS
 
 COMPONENT SerialControl
 	PORT (
-		clk,notSS,accept,pFlag,dFlag,RXerror : in STD_LOGIC;
+		clk,notSS,accept,pFlag,dFlag,RXerror, reset : in STD_LOGIC;
 		wr,init,DXval,busy : out STD_LOGIC
 	);
 END COMPONENT;
@@ -46,21 +46,18 @@ SIGNAL sig_out_D : STD_LOGIC_VECTOR(3 downto 0);
 SIGNAL sig_D : STD_LOGIC_VECTOR(9 downto 0);
 
 BEGIN
-	sig_dFlag <= '1' when sig_out_D = "1010" else '0';
-	
-	sig_pFlag <= '1' when sig_out_D = "1011" else '0';
-	
     uSerialControl:SerialControl PORT MAP(
-		clk => clk,
-		notSS => notSS,
-		accept => accept,
-		pFlag => sig_pFlag,
-		dFlag => sig_dFlag,
+		clk     => clk,
+		notSS   => notSS,
+		accept  => accept,
+		pFlag   => sig_pFlag,
+		dFlag   => sig_dFlag,
 		RXerror => sig_RXerror,
-		wr => sig_wr,
-		init => sig_init,
-		DXval => sig_DXval,
-		busy => sig_busy
+		wr 	  => sig_wr,
+		init 	  => sig_init,
+		DXval   => sig_DXval,
+		busy 	  => sig_busy,
+		reset   => reset
 	);
 
 	uShiftRegister:ShiftRegister PORT MAP(

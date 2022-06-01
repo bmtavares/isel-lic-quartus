@@ -3,7 +3,7 @@ use IEEE.std_logic_1164.all;
 
 entity IOS is
 port(
-	clk, SCLK, SDX, notSS, Fsh : in std_logic;
+	clk, SCLK, SDX, notSS, Fsh, reset : in std_logic;
 	busy : out std_logic;
 	wrt,wrl : out STD_LOGIC;
 	Dout : out STD_LOGIC_VECTOR(8 downto 0)	
@@ -16,7 +16,7 @@ Architecture accIOS of IOS is
 
 COMPONENT SerialReceiver
 	PORT (
-   clk, SCLK, SDX, notSS, accept : in std_logic;
+   clk, SCLK, SDX, notSS, accept, reset : in std_logic;
    busy, DXval : out std_logic;
 	D : out std_logic_vector(9 downto 0)
 	);
@@ -25,7 +25,7 @@ END COMPONENT;
 
 COMPONENT Dispatcher
 	port(
-		dclk,Fsh,Dval : in STD_LOGIC;
+		dclk,Fsh,Dval, reset : in STD_LOGIC;
 		Din : in STD_LOGIC_VECTOR(9 downto 0);
 		wrt,wrl,done : out STD_LOGIC;
 		Dout : out STD_LOGIC_VECTOR(8 downto 0)
@@ -62,20 +62,22 @@ uSerialReceiver:SerialReceiver
 		accept => sig_done_accept,
 		SCLK 	 => SCLK,
 		SDX 	 => SDX,
-		clk 	 => clk
+		clk 	 => clk,
+		reset  => reset
 	);
 	
 	
 uDispatcher:Dispatcher
 	PORT MAP(
 		Dout 	=> Dout,
-		dclk  	=> sig_clkDivided,
+		dclk  => sig_clkDivided,
 		Fsh  	=> Fsh,
 		Dval 	=> sig_DXval,
 		Din	=> sig_D,
 		wrt  	=> wrt,
 		wrl  	=> wrl,
-		done 	=> sig_done_accept 
+		done 	=> sig_done_accept,
+		reset => reset
 	);	
 
 
