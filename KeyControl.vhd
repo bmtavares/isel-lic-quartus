@@ -12,7 +12,8 @@ architecture behaviour of KeyControl is
 	type STATE_TYPE is (
 		STATE_WAITING_KEY,
 		STATE_KEY_READY,
-		STATE_WAIT_ACK_RELEASE
+		STATE_WAIT_ACK_RELEASE,
+		STATE_WAIT_KEY_RELEASE
 		);
 	
 	SIGNAL CurrentState : STATE_TYPE := STATE_WAITING_KEY;
@@ -34,15 +35,22 @@ architecture behaviour of KeyControl is
 													end if;
 					when STATE_KEY_READY		=>  if (reset='1') then
 														NextState <= STATE_WAITING_KEY;
-													elsif (kAck='1' AND kPress='0') then
+													elsif (kAck='1') then
 														NextState <= STATE_WAIT_ACK_RELEASE;
 													else
 														NextState <= STATE_KEY_READY;
 													end if;
-					when STATE_WAIT_ACK_RELEASE	=>  if (reset='1' OR kAck='1') then
+					when STATE_WAIT_ACK_RELEASE	=>  if (reset='1') then
 														NextState <= STATE_WAITING_KEY;
+													elsif (kAck='0') then
+														NextState <= STATE_WAIT_KEY_RELEASE;
 													else
 														NextState <= STATE_WAIT_ACK_RELEASE;
+													end if;
+					when STATE_WAIT_KEY_RELEASE	=>  if (reset='1' OR kPress='0') then
+														NextState <= STATE_WAITING_KEY;
+													else
+														NextState <= STATE_WAIT_KEY_RELEASE;
 													end if;
 
 				end case;				
