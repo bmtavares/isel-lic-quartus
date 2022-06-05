@@ -140,6 +140,7 @@ set_location_assignment PIN_E14 -to LEDR[6]
 set_location_assignment PIN_D14 -to LEDR[7]
 set_location_assignment PIN_A11 -to LEDR[8]
 set_location_assignment PIN_B11 -to LEDR[9]
+set_global_assignment -name VHDL_FILE KeyboardReader.vhd
 set_global_assignment -name VHDL_FILE KeyTransmitterControl.vhd
 set_global_assignment -name VHDL_FILE CounterEnable.vhd
 set_global_assignment -name VHDL_FILE KeyTransmitter.vhd
