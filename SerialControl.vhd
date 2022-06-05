@@ -56,23 +56,23 @@ architecture behaviour of SerialControl is
 					--											NextState <= STATE_READING_PARITY;
 					--										end if;
 					when STATE_READING_PARITY	=> if (reset='1') then
-																NextState <= STATE_READY;															elsif (pFlag='0' and clk ='0') then
+																NextState <= STATE_READY;															elsif (pFlag='0' ) then
 																NextState <= STATE_READING_PARITY;
-															elsif (RXerror='1' and clk ='0') then
+															elsif (RXerror='1' ) then
 																NextState <= STATE_READY;
 															else
 																NextState <= STATE_SENDING;
 															end if;
 					when STATE_SENDING			=> if (reset='1') then
 																NextState <= STATE_READY;
-															elsif (accept='1' and clk ='0') then
+															elsif (accept='1') then
 																NextState <= STATE_WAITING_ACK;
 															else
 																NextState <= STATE_SENDING;
 															end if;
 					when STATE_WAITING_ACK		=> if (reset='1') then
 																NextState <= STATE_READY;
-															elsif (accept='0' and clk ='0') then
+															elsif (accept='0' ) then
 																NextState <= STATE_READY;
 															else
 																NextState <= STATE_WAITING_ACK;
