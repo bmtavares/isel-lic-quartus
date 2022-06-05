@@ -51,7 +51,7 @@ uKeyDecode:KeyDecode
 		clk    =>clk,
 		reset => reset,
 		kAck => sig_DAC,
-		
+		K =>sig_D,
 	);
 	
 uKeyTransmitter:KeyTransmitter
@@ -60,6 +60,7 @@ uKeyTransmitter:KeyTransmitter
 		reset => reset,
 		TXclk => TXclk,
 		DAC => sig_DAC,
+		D=>sig_D,
 		
 	);
 
