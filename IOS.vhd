@@ -6,7 +6,8 @@ port(
 	clk, SCLK, SDX, notSS, Fsh, reset : in std_logic;
 	busy : out std_logic;
 	wrt,wrl : out STD_LOGIC;
-	Dout : out STD_LOGIC_VECTOR(8 downto 0)	
+	Dout : out STD_LOGIC_VECTOR(8 downto 0);
+	DEBUG : out std_logic_vector(5 downto 0)
 	);
 end IOS;
 
@@ -18,7 +19,8 @@ COMPONENT SerialReceiver
 	PORT (
    clk, SCLK, SDX, notSS, accept, reset : in std_logic;
    busy, DXval : out std_logic;
-	D : out std_logic_vector(9 downto 0)
+	D : out std_logic_vector(9 downto 0);
+	DEBUG : out std_logic_vector(5 downto 0)
 	);
 END COMPONENT;
 
@@ -63,7 +65,8 @@ uSerialReceiver:SerialReceiver
 		SCLK 	 => SCLK,
 		SDX 	 => SDX,
 		clk 	 => clk,
-		reset  => reset
+		reset  => reset,
+		DEBUG => DEBUG
 	);
 	
 	

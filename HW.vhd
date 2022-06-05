@@ -19,7 +19,8 @@ Architecture accHW of HW is
 		clk, SCLK, SDX, notSS, Fsh, reset : in std_logic;
 		busy : out std_logic;
 		wrt,wrl : out STD_LOGIC;
-		Dout : out STD_LOGIC_VECTOR(8 downto 0)
+		Dout : out STD_LOGIC_VECTOR(8 downto 0);
+		DEBUG : out std_logic_vector(5 downto 0)
 		);
 	END COMPONENT;
 
@@ -45,6 +46,7 @@ Architecture accHW of HW is
 	signal sig_mReset : STD_LOGIC := '1';
 	signal SinputPort, SoutputPort : STD_LOGIC_VECTOR(7 DOWNTO 0);
 	signal SDout : STD_LOGIC_VECTOR(8 downto 0);
+	signal DEBUG :  std_logic_vector(5 downto 0);
 
 	BEGIN
 		uUsbPort:UsbPort PORT MAP(
@@ -63,7 +65,8 @@ Architecture accHW of HW is
 			wrt 	=> Swrt,
 			wrl 	=> Swrl,     
 			Dout 	=> SDout,
-			reset => sig_mReset
+			reset => sig_mReset,
+			DEBUG => DEBUG
 			);
 
 
@@ -109,15 +112,15 @@ Architecture accHW of HW is
 		LCD_DATA(6) <= SDout(7);
 		LCD_DATA(7) <= SDout(8);
 		
-		pinsDebug(0) <= SDout(0);
-		pinsDebug(1) <= SDout(1);
-		pinsDebug(2) <= SDout(2);
-		pinsDebug(3) <= SDout(3);
-		pinsDebug(4) <= SDout(4);
-		pinsDebug(5) <= SDout(5);
-		pinsDebug(6) <= SDout(6);
-		pinsDebug(7) <= SDout(7);
-		pinsDebug(8) <= SDout(8);
+		pinsDebug(0) <= DEBUG(0);
+		pinsDebug(1) <= DEBUG(1);
+		pinsDebug(2) <= DEBUG(2);
+		pinsDebug(3) <= DEBUG(3);
+		pinsDebug(4) <= DEBUG(4);
+		pinsDebug(5) <= DEBUG(5);
+		pinsDebug(6) <= '0';
+		pinsDebug(7) <= '0';
+		pinsDebug(8) <= '0';
 		pinsDebug(9) <= Swrl;
 
 END accHW;
