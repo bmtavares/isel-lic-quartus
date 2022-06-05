@@ -29,7 +29,7 @@ ARCHITECTURE behaviour OF KeyTransmitterControl IS
 			process (CurrentState, reset, DAV, fnsh)
 				begin
 					case CurrentState is
-						when STATE_WAITING 			=> if (DAV='1' and clk='0') then
+						when STATE_WAITING 			=> if (DAV='1') then
 																	NextState <= STATE_GET_PRESS;
 																else
 																	NextState <= STATE_WAITING;
@@ -43,7 +43,7 @@ ARCHITECTURE behaviour OF KeyTransmitterControl IS
 																
 						when STATE_ACK 				=> if (reset='1') then
 																	NextState <= STATE_WAITING;
-																elsif (DAV='0' and clk='0') then
+																elsif (DAV='0') then
 																	NextState <= STATE_KEY_TRANSMITING;
 																else
 																	NextState <= STATE_ACK;
