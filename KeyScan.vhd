@@ -3,7 +3,8 @@ USE ieee.std_logic_1164.all;
 use IEEE.std_logic_arith.ALL;
 
 ENTITY KeyScan IS
-PORT(	KEYPAD_LIN, KEYPAD_COL : IN STD_LOGIC_vector(3 downto 0);			
+PORT(	
+		KEYPAD_LIN, KEYPAD_COL : IN STD_LOGIC_vector(3 downto 0);			
 		K: out std_logic_vector(3 downto 0);
 		clk, reset : in std_logic;
 		Kscan  : in std_logic;	
@@ -36,7 +37,7 @@ L3 <= KEYPAD_LIN(3) ;
  process (clk, reset,temp_C) is	
  begin  -- process
     if reset = '1' then                   -- asynchronous reset (active high)
-      temp_C <= "00";
+      temp_C <= "000";
     elsif rising_edge(nCLK) then  -- rising clock edge
       temp_C(0) <= sig0;
       temp_C(1) <= sig1;

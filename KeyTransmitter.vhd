@@ -13,7 +13,7 @@ ARCHITECTURE behaviour OF KeyTransmitter IS
 	COMPONENT CounterEnable
 		PORT (
 			clk,clr,en : in std_logic;
-			out_D : out std_logic_vector(2 downto 0)
+			cnt : out std_logic_vector(2 downto 0)
 		);
 	END COMPONENT;
 	
@@ -35,7 +35,7 @@ ARCHITECTURE behaviour OF KeyTransmitter IS
 			clk => txClk,
 			clr => sig_reset_counter,
 			en => sig_enable,
-			out_D => sig_out_D
+			cnt => sig_out_D
 		);
 		
 		uStateMachine:KeyTransmitterControl PORT MAP(
@@ -67,6 +67,8 @@ ARCHITECTURE behaviour OF KeyTransmitter IS
 					when "100" =>  sig_txD <= temp_D(2);
 					when "101" =>  sig_txD <= temp_D(3);
 					when "110" =>  sig_txD <= '0';
+					when "111" => 	sig_txD <= sig_txD;
+					when others => sig_txD <= sig_txD;
 				end case;				
 		end process;
 

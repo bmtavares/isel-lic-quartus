@@ -30,16 +30,16 @@ COMPONENT KeyTransmitter
 	PORT (
     clk, reset : in std_logic;
 	D : IN STD_LOGIC_vector(3 downto 0);
-	DAC, TCd : out STD_LOGIC;
+	DAC : out STD_LOGIC;
 	DAV : in std_logic;
-	TXclk : in std_logic;
+	TXclk : in std_logic
 	);
 END COMPONENT;
 
 
 
 
-SIGNAL sig_DAV, sig_DAC : STD_LOGIC;
+SIGNAL sig_DAV, sig_DAC, sig_kVal : STD_LOGIC;
 SIGNAL sig_D : std_logic_vector(3 downto 0);
 
 BEGIN
@@ -50,8 +50,11 @@ uKeyDecode:KeyDecode
 	PORT MAP(
 		clk    =>clk,
 		reset => reset,
+		KEYPAD_LIN => KEYPAD_LIN,
+		KEYPAD_COL => KEYPAD_COL,
+		kVal => sig_kVal,
 		kAck => sig_DAC,
-		K =>sig_D,
+		K =>sig_D
 	);
 	
 uKeyTransmitter:KeyTransmitter
@@ -59,8 +62,9 @@ uKeyTransmitter:KeyTransmitter
 		clk    =>clk,
 		reset => reset,
 		TXclk => TXclk,
+		DAV => sig_kVal,
 		DAC => sig_DAC,
-		D=>sig_D,
+		D=>sig_D
 		
 	);
 
