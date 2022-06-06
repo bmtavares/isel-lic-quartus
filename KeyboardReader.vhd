@@ -39,13 +39,10 @@ END COMPONENT;
 
 
 
-SIGNAL sig_DAV, sig_DAC, sig_kVal : STD_LOGIC;
+SIGNAL sig_DAC, sig_kVal : STD_LOGIC;
 SIGNAL sig_D : std_logic_vector(3 downto 0);
 
 BEGIN
-
-
-
 uKeyDecode:KeyDecode
 	PORT MAP(
 		clk    =>clk,
