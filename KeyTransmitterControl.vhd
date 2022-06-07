@@ -68,7 +68,7 @@ ARCHITECTURE behaviour OF KeyTransmitterControl IS
 
 	   reset_counter <= '1' when CurrentState=STATE_WAITING else '0';
 
-		st_tx <= '0' when (CurrentState=STATE_KEY_TRANSMITING ) else '1';
+		st_tx <= '0' when (CurrentState=STATE_KEY_TRANSMITING OR CurrentState=STATE_FINISH_TRANSMIT) else '1';
 		--st_tx <= '1';
 		
 		DAC <= '1' when CurrentState=STATE_ACK else '0';

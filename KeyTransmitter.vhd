@@ -70,6 +70,16 @@ ARCHITECTURE behaviour OF KeyTransmitter IS
 					when others => sig_txD <= sig_txD;
 				end case;				
 		end process;
+		
+--		sig_txD <=  '0' when sig_out_D = "000" else
+--						'1' when sig_out_D = "001" else
+--						temp_D(0) when sig_out_d = "010" else
+--						temp_D(1) when sig_out_d = "011" else
+--						temp_D(2) when sig_out_d = "100" else
+--						temp_D(3) when sig_out_d = "101" else
+--						'0' when sig_out_d = "110" else
+--						sig_txD;
+		
 
 		sig_fnsh <= '1' when sig_out_D = "110" else '0';
 
