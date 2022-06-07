@@ -65,6 +65,8 @@ Architecture accHW of HW is
 	signal SinputPort, SoutputPort : STD_LOGIC_VECTOR(7 DOWNTO 0);
 	signal SDout : STD_LOGIC_VECTOR(8 downto 0);
 	signal DEBUG :  std_logic_vector(5 downto 0);
+	signal usb_reg : STD_LOGIC_VECTOR(7 downto 0);
+
 
 	BEGIN
 		uUsbPort:UsbPort PORT MAP(
@@ -73,19 +75,19 @@ Architecture accHW of HW is
 			);	
 
 
-		uIOS:IOS PORT MAP(
-			clk 	=> clk,
-			SCLK 	=> SoutputPort(2),
-			SDX 	=> SoutputPort(0),
-			notSS => SoutputPort(3),
-			Fsh 	=> Sfn,
-			busy 	=> SinputPort(6),
-			wrt 	=> Swrt,
-			wrl 	=> Swrl,     
-			Dout 	=> SDout,
-			reset => sig_mReset,
-			DEBUG => DEBUG
-			);
+			uIOS:IOS PORT MAP(
+				clk 	=> clk,
+				SCLK 	=> usb_reg(1),
+				SDX 	=> usb_reg(0),
+				notSS => usb_reg(2),
+				Fsh 	=> Sfn,
+				busy 	=> SinputPort(3),
+				wrt 	=> Swrt,
+				wrl 	=> Swrl,     
+				Dout 	=> SDout,
+				reset => sig_mReset,
+				DEBUG => DEBUG
+				);
 
 
 		uTDispenser:TDispenser PORT MAP(
@@ -101,7 +103,8 @@ Architecture accHW of HW is
 			OId(1) => SDout(7),
 			OId(2) => SDout(6),
 			OId(3) => SDout(5),
-			HEX0 	 => HEX0,
+
+			HEX0 	 => HEX0,
 			HEX1 	 => HEX1,
 			HEX2 	 => HEX2,
 			HEX3 	 => HEX3,
@@ -110,20 +113,27 @@ Architecture accHW of HW is
 			Sensor => Sensor
 			);
 
-		uKeyboard:KeyboardReader
+			uKeyboard:KeyboardReader
 			PORT MAP(
 			clk => clk,
 			reset => sig_mReset,
 			KEYPAD_LIN => KEYPAD_LIN,
 			KEYPAD_COL => KEYPAD_COL,
 			TXd => SinputPort(5),
-			TXclk => SoutputPort(4),
-			DBUG => s_dbug
-			);	
+			TXclk => usb_reg(4)
+			);		
 
 		--pinsDebug(0) <= Swrt;
 		--pinsDebug(1) <= SinputPort(3);
 
+		usb_reg(0) <= SoutputPort(0) when rising_edge(CLK) else usb_reg(0);
+		usb_reg(1) <= SoutputPort(1) when rising_edge(CLK) else usb_reg(1);
+		usb_reg(2) <= SoutputPort(2) when rising_edge(CLK) else usb_reg(2);
+		usb_reg(3) <= SoutputPort(3) when rising_edge(CLK) else usb_reg(3);
+		usb_reg(4) <= SoutputPort(4) when rising_edge(CLK) else usb_reg(4);
+		usb_reg(5) <= SoutputPort(5) when rising_edge(CLK) else usb_reg(5);
+		usb_reg(6) <= SoutputPort(6) when rising_edge(CLK) else usb_reg(6);
+		usb_reg(7) <= SoutputPort(7) when rising_edge(CLK) else usb_reg(7);
 
 		-- Reset button
 		sig_mReset <= '0';
