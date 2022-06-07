@@ -1,16 +1,15 @@
 LIBRARY IEEE;
 use IEEE.std_logic_1164.all;
 
-entity KeyTransmitter_tb is
-end KeyTransmitter_tb;
+entity KeyControl_tb is
+end KeyControl_tb;
 
-architecture behavioural of KeyTransmitter_tb is
+architecture behavioural of KeyControl_tb is
 
-component KeyTransmitter is
+component KeyControl is
 	PORT(
-		clk,DAV,txClk,reset : in STD_LOGIC;
-		D : in STD_LOGIC_VECTOR(3 downto 0);
-		DAC,txD : out STD_LOGIC
+		clk,kAck,kPress,reset : in STD_LOGIC;
+		kVal,kScan : out STD_LOGIC
 	);
 end component;
 
@@ -18,22 +17,20 @@ end component;
 constant CLKPeriod : time := 10 ns;
 
 signal s_D :STD_LOGIC_VECTOR(3 downto 0);
-signal CLK_tb, s_txClk, s_DAV,s_DAC, s_txD ,s_reset: STD_LOGIC;
+signal CLK_tb, s_kAck, s_kPress,s_kVal, s_kScan ,s_reset: STD_LOGIC;
 
 
 begin
 s_reset <= '0';
 --Unit Under Test
-UUT: KeyTransmitter
+UUT: KeyControl
 	PORT MAP(
-		clk    =>CLK_tb,
-		txD => s_txD,
-		DAC => s_DAC,
-		
-		reset => s_reset,
-		txClk => s_txClk,	
-		DAV => s_DAV	,	
-		D => s_D
+		clk    =>CLK_tb,		
+		reset => s_reset,		
+		kAck => s_kAck,		
+		kPress => s_kPress,		
+		kVal => s_kVal,		
+		kScan => s_kScan	
 	);
 				
 CLK_gen : process

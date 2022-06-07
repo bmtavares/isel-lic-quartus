@@ -4,7 +4,9 @@ use IEEE.std_logic_1164.all;
 entity KeyboardReader is
 port(
 	clk, reset : in std_logic;
-	KEYPAD_LIN, KEYPAD_COL : IN STD_LOGIC_vector(3 downto 0);
+	
+			KEYPAD_LIN : IN STD_LOGIC_vector(3 downto 0);	
+		KEYPAD_COL : OUT STD_LOGIC_vector(3 downto 0);
 	TXd : out std_logic;
 	TXclk : in std_logic
 	);
@@ -17,7 +19,9 @@ Architecture accKeyboardReader of KeyboardReader is
 COMPONENT KeyDecode
 	PORT (
     clk, reset : in std_logic;
-	KEYPAD_LIN, KEYPAD_COL : IN STD_LOGIC_vector(3 downto 0);
+	 		KEYPAD_LIN : IN STD_LOGIC_vector(3 downto 0);	
+		KEYPAD_COL : OUT STD_LOGIC_vector(3 downto 0);
+	 
 	kVal : out STD_LOGIC;
 	kAck : in std_logic;
 	K: out std_logic_vector(3 downto 0)

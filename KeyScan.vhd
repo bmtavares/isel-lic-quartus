@@ -4,7 +4,8 @@ use IEEE.std_logic_arith.ALL;
 
 ENTITY KeyScan IS
 PORT(	
-		KEYPAD_LIN, KEYPAD_COL : IN STD_LOGIC_vector(3 downto 0);			
+		KEYPAD_LIN : IN STD_LOGIC_vector(3 downto 0);	
+		KEYPAD_COL : OUT STD_LOGIC_vector(3 downto 0);		
 		K: out std_logic_vector(3 downto 0);
 		clk, reset : in std_logic;
 		Kscan  : in std_logic;	
@@ -24,17 +25,13 @@ BEGIN
 
 
 nCLK <= not clk;
-C0 <= KEYPAD_COL(0) ;
-C1 <= KEYPAD_COL(1) ;
-C2 <= KEYPAD_COL(2) ;
-C3 <= KEYPAD_COL(3) ;
-
+nKscan <= not Kscan;
 L0 <= KEYPAD_LIN(0) ;
 L1 <= KEYPAD_LIN(1) ;
 L2 <= KEYPAD_LIN(2) ;
 L3 <= KEYPAD_LIN(3) ;
 
- process (clk, reset,temp_C) is	
+ process (nCLK, reset,temp_C) is	
  begin  -- process
     if reset = '1' then                   -- asynchronous reset (active high)
       temp_C <= "000";
@@ -51,33 +48,25 @@ L3 <= KEYPAD_LIN(3) ;
   QA1 <= temp_C(1); 
   
   
+  C0 <= '1' when (QA0 = '0' and QA1 = '0') else '0';
+  C1 <= '1' when (QA0 = '1' and QA1 = '0') else '0';
+  C2 <= '1' when (QA0 = '0' and QA1 = '1') else '0';
+  C3 <= '1' when (QA0 = '1' and QA1 = '1') else '0'; -- podemos eleminar
   
+  KEYPAD_COL(0)  <= C0  ;
+  KEYPAD_COL(1)  <= C1  ;
+  KEYPAD_COL(2)  <= C2  ;
+  KEYPAD_COL(3)  <= C3  ; -- podemos eleminar
   
-  
-  
-process (QA0,QA1,L0,L1,L2,L3) is
-begin
---Decoder linhas
- if (QA0 ='0' and QA1 = '0') then
- L0 <= '1';
- elsif (QA0 ='1' and QA1 = '0') then
- L1 <= '1';
- elsif (QA0 ='0' and QA1 = '1') then
- L2 <= '1';
- else
- L3 <= '1';
- end if;  
- --END Decoder linhas 
-end process;
 --encoder
-Y0 <= C1 or C2;
-Y1 <= C1 or C3;
+Y0 <= L1 or L3;
+Y1 <= L2 or L3 ;
 --end encoder
 
 
-Kpress <= C0 or C1 or C2 or C3;
-sigY0 <= Y0 when rising_edge(Kscan) else sigY0;
-sigY1 <= Y1 when rising_edge(Kscan) else sigY1;
+Kpress <= L0 or L1 or L2 or L3;
+sigY0 <= Y0 when rising_edge(nKscan) else sigY0;
+sigY1 <= Y1 when rising_edge(nKscan) else sigY1;
 
 K(0) <= QA0;
 K(1) <= QA1;

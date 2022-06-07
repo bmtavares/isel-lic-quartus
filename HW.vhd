@@ -6,7 +6,10 @@ entity HW is
 	clk, Sensor, SWITCH1 : IN STD_LOGIC;
 	KEY : IN STD_LOGIC_VECTOR(1 downto 0);
 	LCD_RS, LCD_EN : OUT STD_LOGIC;
-	KEYPAD_LIN, KEYPAD_COL : IN STD_LOGIC_VECTOR(3 downto 0);
+			KEYPAD_LIN : IN STD_LOGIC_vector(3 downto 0);	
+		KEYPAD_COL : OUT STD_LOGIC_vector(3 downto 0);
+	
+	
 	HEX0,HEX1,HEX2,HEX3,HEX4, HEX5 : OUT STD_LOGIC_VECTOR(7 downto 0) := "00000000";
 	LCD_DATA : OUT STD_LOGIC_VECTOR(7 downto 0);
 	pinsDebug : OUT STD_LOGIC_VECTOR(9 downto 0) := "0000000000"
@@ -45,7 +48,10 @@ Architecture accHW of HW is
 	COMPONENT KeyboardReader
 	PORT (
 	clk, reset : in std_logic;
-	KEYPAD_LIN,KEYPAD_COL : IN STD_LOGIC_VECTOR(3 downto 0);
+			KEYPAD_LIN : IN STD_LOGIC_vector(3 downto 0);	
+		KEYPAD_COL : OUT STD_LOGIC_vector(3 downto 0);
+	
+	
 	TXd : out std_logic;
 	TXclk : in std_logic
 	);
@@ -107,8 +113,8 @@ Architecture accHW of HW is
 			PORT MAP(
 			clk => clk,
 			reset => sig_mReset,
-			KEYPAD_LIN => sig_KBD_Line,
-			KEYPAD_COL => sig_KBD_Col,
+			KEYPAD_LIN => KEYPAD_LIN,
+			KEYPAD_COL => KEYPAD_COL,
 			TXd => sig_txD,
 			TXclk => sig_txClk
 			);	
@@ -144,14 +150,7 @@ Architecture accHW of HW is
 		pinsDebug(8) <= '0';
 		pinsDebug(9) <= Swrl;
 		
-		sig_KBD_Line(3) <= KEYPAD_LIN(3);
-		sig_KBD_Line(2) <= KEYPAD_LIN(2);
-		sig_KBD_Line(1) <= KEYPAD_LIN(1);
-		sig_KBD_Line(0) <= KEYPAD_LIN(0);
-		
-		sig_KBD_Col(3) <= KEYPAD_COL(3);
-		sig_KBD_Col(2) <= KEYPAD_COL(2);
-		sig_KBD_Col(1) <= KEYPAD_COL(1);
-		sig_KBD_Col(0) <= KEYPAD_COL(0);
+
+
 
 END accHW;
