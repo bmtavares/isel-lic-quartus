@@ -26,8 +26,9 @@ BEGIN
 
 nCLK <= not clk;
 nKscan <= not Kscan;
+
 L0 <= not KEYPAD_LIN(0) ;
-L1 <=not  KEYPAD_LIN(1) ;
+L1 <= not KEYPAD_LIN(1) ;
 L2 <= not KEYPAD_LIN(2) ;
 L3 <= not KEYPAD_LIN(3) ;
 
