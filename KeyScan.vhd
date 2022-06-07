@@ -17,7 +17,7 @@ ARCHITECTURE accKeyScan OF KeyScan IS
 
 signal QA1, QA0, L0,L1,L2,L3 :  std_logic;
 signal Y1, Y0, C0,C1,C2,C3 :  std_logic;
-signal nCLK :  std_logic;
+signal nCLK ,nKscan:  std_logic;
 SIGNAL temp_C : unsigned (2 downto 0) := (others => '0');
 signal sig0,sig1 : std_logic;
 signal sigY0,sigY1 : std_logic;
