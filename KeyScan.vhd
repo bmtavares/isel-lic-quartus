@@ -26,10 +26,10 @@ BEGIN
 
 nCLK <= not clk;
 nKscan <= not Kscan;
-L0 <= KEYPAD_LIN(0) ;
-L1 <= KEYPAD_LIN(1) ;
-L2 <= KEYPAD_LIN(2) ;
-L3 <= KEYPAD_LIN(3) ;
+L0 <= not KEYPAD_LIN(0) ;
+L1 <=not  KEYPAD_LIN(1) ;
+L2 <= not KEYPAD_LIN(2) ;
+L3 <= not KEYPAD_LIN(3) ;
 
  process (nCLK, reset,temp_C) is	
  begin  -- process
@@ -53,10 +53,10 @@ L3 <= KEYPAD_LIN(3) ;
   C2 <= '1' when (QA0 = '0' and QA1 = '1') else '0';
   C3 <= '1' when (QA0 = '1' and QA1 = '1') else '0'; -- podemos eleminar
   
-  KEYPAD_COL(0)  <= C0  ;
-  KEYPAD_COL(1)  <= C1  ;
-  KEYPAD_COL(2)  <= C2  ;
-  KEYPAD_COL(3)  <= C3  ; -- podemos eleminar
+  KEYPAD_COL(0)  <= not C0  ;
+  KEYPAD_COL(1)  <= not C1  ;
+  KEYPAD_COL(2)  <= not C2  ;
+  KEYPAD_COL(3)  <= not C3  ; -- podemos eleminar
   
 --encoder
 Y0 <= L1 or L3;

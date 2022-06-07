@@ -73,6 +73,7 @@ ARCHITECTURE behaviour OF KeyTransmitter IS
 
 		sig_fnsh <= '1' when sig_out_D = "110" else '0';
 
-		txD <= sig_txD OR sig_st_tx;
+	txD <= sig_txD OR sig_st_tx;
+	
 
 END behaviour;

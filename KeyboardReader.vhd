@@ -7,7 +7,7 @@ port(
 	
 			KEYPAD_LIN : IN STD_LOGIC_vector(3 downto 0);	
 		KEYPAD_COL : OUT STD_LOGIC_vector(3 downto 0);
-	TXd : out std_logic;
+	TXd ,DBUG: out std_logic;
 	TXclk : in std_logic
 	);
 end KeyboardReader;
@@ -58,7 +58,7 @@ uKeyDecode:KeyDecode
 		kAck => sig_DAC,
 		K =>sig_D
 	);
-	
+	DBUG <=sig_kVal;
 uKeyTransmitter:KeyTransmitter
 	PORT MAP(
 		clk    =>clk,

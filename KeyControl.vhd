@@ -26,7 +26,7 @@ architecture behaviour of KeyControl is
 		process (CurrentState, kAck, kPress, reset)
 			begin				
 				case CurrentState is
-					when STATE_WAITING_KEY	=>  if (kPress='1') then
+					when STATE_WAITING_KEY	=>  if (kPress='0') then
 														NextState <= STATE_KEY_READY;
 													else
 														NextState <= STATE_WAITING_KEY;
@@ -45,7 +45,7 @@ architecture behaviour of KeyControl is
 													else
 														NextState <= STATE_WAIT_ACK_RELEASE;
 													end if;
-					when STATE_WAIT_KEY_RELEASE	=>  if (reset='1' OR kPress='0') then
+					when STATE_WAIT_KEY_RELEASE	=>  if (reset='1' OR kPress='1') then
 														NextState <= STATE_WAITING_KEY;
 													else
 														NextState <= STATE_WAIT_KEY_RELEASE;

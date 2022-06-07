@@ -48,17 +48,18 @@ Architecture accHW of HW is
 	COMPONENT KeyboardReader
 	PORT (
 	clk, reset : in std_logic;
+
 			KEYPAD_LIN : IN STD_LOGIC_vector(3 downto 0);	
 		KEYPAD_COL : OUT STD_LOGIC_vector(3 downto 0);
 	
 	
-	TXd : out std_logic;
+	TXd,DBUG : out std_logic;
 	TXclk : in std_logic
 	);
 	END COMPONENT;
 
 	-- Signals
-	signal Swrt, Swrl, Sfn, sig_txD, sig_txClk : STD_LOGIC;
+	signal Swrt, Swrl, Sfn, sig_txD, sig_txClk, s_dbug : STD_LOGIC;
 	signal sig_mReset : STD_LOGIC := '1';
 	signal sig_KBD_Line, sig_KBD_Col : STD_LOGIC_VECTOR(3 DOWNTO 0);
 	signal SinputPort, SoutputPort : STD_LOGIC_VECTOR(7 DOWNTO 0);
@@ -74,11 +75,11 @@ Architecture accHW of HW is
 
 		uIOS:IOS PORT MAP(
 			clk 	=> clk,
-			SCLK 	=> SoutputPort(1),
+			SCLK 	=> SoutputPort(2),
 			SDX 	=> SoutputPort(0),
-			notSS => SoutputPort(2),
+			notSS => SoutputPort(3),
 			Fsh 	=> Sfn,
-			busy 	=> SinputPort(3),
+			busy 	=> SinputPort(6),
 			wrt 	=> Swrt,
 			wrl 	=> Swrl,     
 			Dout 	=> SDout,
@@ -116,9 +117,9 @@ Architecture accHW of HW is
 			KEYPAD_LIN => KEYPAD_LIN,
 			KEYPAD_COL => KEYPAD_COL,
 			TXd => SinputPort(5),
-			TXclk => SoutputPort(4)
+			TXclk => SoutputPort(4),
+			DBUG => s_dbug
 			);	
-			
 
 		--pinsDebug(0) <= Swrt;
 		--pinsDebug(1) <= SinputPort(3);
@@ -145,9 +146,9 @@ Architecture accHW of HW is
 		pinsDebug(3) <= DEBUG(3);
 		pinsDebug(4) <= DEBUG(4);
 		pinsDebug(5) <= DEBUG(5);
-		pinsDebug(6) <= '0';
-		pinsDebug(7) <= '0';
-		pinsDebug(8) <= '0';
+		pinsDebug(6) <= s_dbug;
+		pinsDebug(7) <= s_dbug;
+		pinsDebug(8) <= s_dbug;
 		pinsDebug(9) <= Swrl;
 		
 

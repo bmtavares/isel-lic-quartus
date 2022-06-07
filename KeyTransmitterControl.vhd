@@ -4,7 +4,8 @@ use IEEE.STD_LOGIC_1164.ALL;
 ENTITY KeyTransmitterControl IS
 	PORT(
 		clk,DAV,reset,fnsh : in STD_LOGIC;
-		DAC,st_tx,enable_counter,reset_counter,wr : out STD_LOGIC
+		DAC,enable_counter,reset_counter,wr : out STD_LOGIC;
+		st_tx : out STD_LOGIC := '1'
 	);
 END KeyTransmitterControl;
 
@@ -67,8 +68,9 @@ ARCHITECTURE behaviour OF KeyTransmitterControl IS
 
 	   reset_counter <= '1' when CurrentState=STATE_WAITING else '0';
 
-		st_tx <= '1' when (CurrentState=STATE_WAITING or CurrentState=STATE_GET_PRESS or CurrentState=STATE_ACK) else '0';
-
+		st_tx <= '0' when (CurrentState=STATE_KEY_TRANSMITING ) else '1';
+		--st_tx <= '1';
+		
 		DAC <= '1' when CurrentState=STATE_ACK else '0';
 
 END behaviour;
