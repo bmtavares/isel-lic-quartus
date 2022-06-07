@@ -83,9 +83,9 @@ BEGIN
 		out_D => sig_out_D
 	);
 	
-	sig_dFlag <= '1' when sig_out_D = "1010"  else '0';
+	sig_dFlag <= '1' when (sig_out_D = "1010" and SCLK = '0')  else '0';
 	
-	sig_pFlag <= '1' when sig_out_D = "1011"  else '0';
+	sig_pFlag <= '1' when (sig_out_D = "1011" and SCLK = '0') else '0';
 	
 	D <= sig_D;
 	

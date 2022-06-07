@@ -4,6 +4,7 @@ use IEEE.STD_LOGIC_1164.ALL;
 entity SerialControl is
 	port(
 		clk,notSS,accept,pFlag,dFlag,RXerror, reset : in STD_LOGIC;
+		
 		wr,init,DXval,busy : out STD_LOGIC;
 		DEBUG : out std_logic_vector(5 downto 0)
 	);
@@ -34,16 +35,16 @@ architecture behaviour of SerialControl is
 				case CurrentState is
 					when STATE_READY				=> if (reset='1') then
 																NextState <= STATE_READY;
-															elsif (notSS='0'and clk ='0') then
+															elsif (notSS='0') then
 																NextState <= STATE_READING_DX;
 															else
 																NextState <= STATE_READY;
 															end if;
 					when STATE_READING_DX		=> if (reset='1') then
 																NextState <= STATE_READY;
-															elsif (notSS='1'and clk ='0') then
+															elsif (notSS='1') then
 																NextState <= STATE_READY;
-															elsif (dFlag='1' and clk ='0') then
+															elsif (dFlag='1' ) then
 																NextState <= STATE_READING_PARITY;
 															else
 																NextState <= STATE_READING_DX;
