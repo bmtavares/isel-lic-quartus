@@ -57,7 +57,7 @@ ARCHITECTURE behaviour OF KeyTransmitter IS
 		temp_D(3) <= D(3) when (rising_edge(clk) and sig_wr = '1') else temp_D(3);
 	
 		pMux:
-		process (sig_out_D, temp_D)
+		process (sig_out_D, temp_D, sig_txD)
 			begin				
 				case sig_out_D is
 					when "000" =>  sig_txD <= '0';
@@ -67,7 +67,6 @@ ARCHITECTURE behaviour OF KeyTransmitter IS
 					when "100" =>  sig_txD <= temp_D(2);
 					when "101" =>  sig_txD <= temp_D(3);
 					when "110" =>  sig_txD <= '0';
-					when "111" => 	sig_txD <= sig_txD;
 					when others => sig_txD <= sig_txD;
 				end case;				
 		end process;

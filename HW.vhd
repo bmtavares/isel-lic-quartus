@@ -115,8 +115,8 @@ Architecture accHW of HW is
 			reset => sig_mReset,
 			KEYPAD_LIN => KEYPAD_LIN,
 			KEYPAD_COL => KEYPAD_COL,
-			TXd => sig_txD,
-			TXclk => sig_txClk
+			TXd => SinputPort(5),
+			TXclk => SoutputPort(4)
 			);	
 			
 

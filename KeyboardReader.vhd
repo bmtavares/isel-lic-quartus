@@ -36,7 +36,8 @@ COMPONENT KeyTransmitter
 	D : IN STD_LOGIC_vector(3 downto 0);
 	DAC : out STD_LOGIC;
 	DAV : in std_logic;
-	TXclk : in std_logic
+	TXclk : in std_logic;
+	txD:out STD_LOGIC
 	);
 END COMPONENT;
 
@@ -65,8 +66,8 @@ uKeyTransmitter:KeyTransmitter
 		TXclk => TXclk,
 		DAV => sig_kVal,
 		DAC => sig_DAC,
-		D=>sig_D
-		
+		D=>sig_D,
+		txD => TXd
 	);
 
 
