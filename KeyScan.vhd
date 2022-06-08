@@ -36,7 +36,7 @@ L3 <= not KEYPAD_LIN(3) ;
  begin  -- process
     if reset = '1' then                   -- asynchronous reset (active high)
       temp_C <= "000";
-    elsif rising_edge(nCLK) then  -- rising clock edge
+    elsif rising_edge(nKscan) then  -- rising clock edge
       temp_C(0) <= sig0;
       temp_C(1) <= sig1;
     end if;
