@@ -29,11 +29,11 @@ set_location_assignment PIN_P11 -to clk
 set_location_assignment PIN_C10 -to Sensor
 set_location_assignment PIN_C11 -to SWITCH1
 #set_location_assignment PIN_D12 -to inputPort[2]
-#set_location_assignment PIN_C12 -to inputPort[3]
+set_location_assignment PIN_C12 -to HasCoin
 #set_location_assignment PIN_A12 -to inputPort[4]
-#set_location_assignment PIN_B12 -to inputPort[5]
-#set_location_assignment PIN_A13 -to inputPort[6]
-#set_location_assignment PIN_A14 -to inputPort[7]
+set_location_assignment PIN_B12 -to Coin[0]
+set_location_assignment PIN_A13 -to Coin[1]
+set_location_assignment PIN_A14 -to Coin[2]
 
 set_location_assignment PIN_A8 -to pinsDebug[0]
 set_location_assignment PIN_A9 -to pinsDebug[1]

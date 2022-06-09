@@ -3,11 +3,12 @@ use IEEE.std_logic_1164.all;
 
 entity HW is
 	port (
-	clk, Sensor, SWITCH1 : IN STD_LOGIC;
+	clk, Sensor, SWITCH1,HasCoin : IN STD_LOGIC;
 	KEY : IN STD_LOGIC_VECTOR(1 downto 0);
 	LCD_RS, LCD_EN : OUT STD_LOGIC;
-			KEYPAD_LIN : IN STD_LOGIC_vector(3 downto 0);	
-		KEYPAD_COL : OUT STD_LOGIC_vector(3 downto 0);
+	KEYPAD_LIN : IN STD_LOGIC_vector(3 downto 0);	
+	Coin : IN STD_LOGIC_vector(2 downto 0);
+	KEYPAD_COL : OUT STD_LOGIC_vector(3 downto 0);
 	
 	
 	HEX0,HEX1,HEX2,HEX3,HEX4, HEX5 : OUT STD_LOGIC_VECTOR(7 downto 0) := "00000000";
@@ -79,9 +80,9 @@ Architecture accHW of HW is
 				clk 	=> clk,
 				SCLK 	=> usb_reg(1),
 				SDX 	=> usb_reg(0),
-				notSS => usb_reg(2),
+				notSS   => usb_reg(2),
 				Fsh 	=> Sfn,
-				busy 	=> SinputPort(3),
+				busy 	=> SinputPort(6),
 				wrt 	=> Swrt,
 				wrl 	=> Swrl,     
 				Dout 	=> SDout,
@@ -122,7 +123,6 @@ Architecture accHW of HW is
 			TXd => SinputPort(5),
 			TXclk => usb_reg(4)
 			);		
-
 		--pinsDebug(0) <= Swrt;
 		--pinsDebug(1) <= SinputPort(3);
 
@@ -150,18 +150,22 @@ Architecture accHW of HW is
 		LCD_DATA(6) <= SDout(7);
 		LCD_DATA(7) <= SDout(8);
 		
-		pinsDebug(0) <= DEBUG(0);
-		pinsDebug(1) <= DEBUG(1);
-		pinsDebug(2) <= DEBUG(2);
-		pinsDebug(3) <= DEBUG(3);
-		pinsDebug(4) <= DEBUG(4);
-		pinsDebug(5) <= DEBUG(5);
-		pinsDebug(6) <= s_dbug;
-		pinsDebug(7) <= s_dbug;
-		pinsDebug(8) <= s_dbug;
-		pinsDebug(9) <= Swrl;
+	--	pinsDebug(0) <= sig_KBD_Col(0);
+	--	pinsDebug(1) <= sig_KBD_Col(1);
+	--	pinsDebug(2) <= sig_KBD_Col(2);
+	--	pinsDebug(3) <= sig_KBD_Col(3);
+	--	pinsDebug(4) <= DEBUG(4);
+	--	pinsDebug(5) <= DEBUG(5);
+	--	pinsDebug(6) <= usb_reg(5);
+	--	pinsDebug(7) <= usb_reg(6);
+	--	pinsDebug(8) <= usb_reg(7);
+	--	pinsDebug(9) <= Swrl;
+	--	
+		--coin aceptor
+				
+		SinputPort(0)  <= Coin(0)  ;
+		SinputPort(1)  <= Coin(1)  ;
+		SinputPort(2)  <= Coin(2)  ;
 		
-
-
 
 END accHW;
