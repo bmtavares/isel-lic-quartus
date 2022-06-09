@@ -55,7 +55,7 @@ uClkDIV:clkDIV
 		clk_out	=> sig_clkDivided
 	);
 
-uSerialReceiver:SerialReceiver
+uSerialReceiver:SerialReceiver 
 	PORT MAP(
 		DXval  => sig_DXval,
 		D 		 => sig_D,

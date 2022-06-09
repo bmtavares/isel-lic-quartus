@@ -11,7 +11,7 @@ ARCHITECTURE behavior OF IOS_tb IS
 -- Component Declaration for the Unit Under Test (UUT)
 COMPONENT IOS IS
  Port( 
-	clk, SCLK, SDX, notSS, Fsh : in STD_LOGIC;
+	clk, SCLK, SDX, notSS, Fsh , reset : in STD_LOGIC;
 	busy : out STD_LOGIC;
 	wrt,wrl : out STD_LOGIC;
 	Dout : out STD_LOGIC_VECTOR(8 downto 0)	
@@ -21,7 +21,7 @@ END COMPONENT;
 constant MCLK_PERIOD : time := 20 ns;
 constant MCLK_HALF_PERIOD : time := MCLK_PERIOD / 2;
 --Inputs
-SIGNAL clk_tb, SCLK_tb, SDX_tb, notSS_tb, Fsh_tb : STD_LOGIC := '0';
+SIGNAL clk_tb, SCLK_tb, SDX_tb, notSS_tb, Fsh_tb, s_reset : STD_LOGIC := '0';
 --Outputs
 SIGNAL busy_tb, wrt_tb, wrl_tb : STD_LOGIC := '0';
 signal Dout_tb : STD_LOGIC_VECTOR(8 downto 0) := "000000000";
@@ -31,6 +31,7 @@ BEGIN
 -- Instantiate the Unit Under Test (UUT)
 uut: IOS PORT MAP(
 	clk => clk_tb,
+	reset => s_reset
 	SCLK => SCLK_tb,
 	SDX => SDX_tb,
 	notSS => notSS_tb,
@@ -39,6 +40,7 @@ uut: IOS PORT MAP(
 	wrt => wrt_tb,
 	wrl => wrl_tb,
 	Dout => Dout_tb
+	
 	);
 
 
@@ -53,7 +55,7 @@ end process;
 
 tb : PROCESS
 BEGIN
-
+s_reset <= '0';
 			-- 1 0 0010 1110 1
             -- 1 (TnL)
            
