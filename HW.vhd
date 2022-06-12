@@ -8,7 +8,7 @@ entity HW is
 	LCD_RS, LCD_EN : OUT STD_LOGIC;
 	KEYPAD_LIN : IN STD_LOGIC_vector(3 downto 0);	
 	Coin : IN STD_LOGIC_vector(2 downto 0);
-	KEYPAD_COL : OUT STD_LOGIC_vector(3 downto 0);
+	KEYPAD_COL : OUT STD_LOGIC_vector(2 downto 0);
 	
 	
 	HEX0,HEX1,HEX2,HEX3,HEX4, HEX5 : OUT STD_LOGIC_VECTOR(7 downto 0) := "00000000";
@@ -51,7 +51,7 @@ Architecture accHW of HW is
 	clk, reset : in std_logic;
 
 			KEYPAD_LIN : IN STD_LOGIC_vector(3 downto 0);	
-		KEYPAD_COL : OUT STD_LOGIC_vector(3 downto 0);
+		KEYPAD_COL : OUT STD_LOGIC_vector(2 downto 0);
 	
 	
 	TXd,DBUG : out std_logic;
