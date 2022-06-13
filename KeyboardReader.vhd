@@ -1,97 +1,64 @@
 LIBRARY IEEE;
 use IEEE.std_logic_1164.all;
 
-entity KeyboardReader is
-port(
-	clk, reset : in std_logic;
-	
-			KEYPAD_LIN : IN STD_LOGIC_vector(3 downto 0);	
-		KEYPAD_COL : OUT STD_LOGIC_vector(2 downto 0);
-	TXd ,DBUG: out std_logic;
-	TXclk : in std_logic
+ENTITY KeyboardReader IS
+	PORT (
+	clk, reset, TXclk	: IN  STD_LOGIC;
+	KEYPAD_LIN 			: IN  STD_LOGIC_VECTOR(3 downto 0);	
+	TXd, DBUG			: OUT STD_LOGIC;
+	KEYPAD_COL 			: OUT STD_LOGIC_VECTOR(2 downto 0)
 	);
-end KeyboardReader;
-
+END KeyboardReader;
 
 Architecture accKeyboardReader of KeyboardReader is
 
+	COMPONENT KeyDecode
+		PORT (
+		clk, reset, kAck	: IN  STD_LOGIC;
+		KEYPAD_LIN 			: IN  STD_LOGIC_VECTOR(3 downto 0);	
+		kVal 				: OUT STD_LOGIC;
+		KEYPAD_COL 			: OUT STD_LOGIC_VECTOR(2 downto 0);
+		K					: OUT STD_LOGIC_VECTOR(3 downto 0)
+		);
+	END COMPONENT;
 
---COMPONENT KeyDecode
---	PORT (
---    clk, reset : in std_logic;
---	 		KEYPAD_LIN : IN STD_LOGIC_vector(3 downto 0);	
---		KEYPAD_COL : OUT STD_LOGIC_vector(2 downto 0);
---	 
---	kVal : out STD_LOGIC;
---	kAck : in std_logic;
---	K: out std_logic_vector(3 downto 0)
--- 
---	);
---END COMPONENT;
---
---
---COMPONENT KeyTransmitter
---	PORT (
---    clk, reset : in std_logic;
---	D : IN STD_LOGIC_vector(3 downto 0);
---	DAC : out STD_LOGIC;
---	DAV : in std_logic;
---	TXclk : in std_logic;
---	txD:out STD_LOGIC
---	);
---END COMPONENT;
+	COMPONENT KeyTransmitter
+		PORT (
+		clk, reset : in std_logic;
+		D : IN STD_LOGIC_vector(3 downto 0);
+		DAC : out STD_LOGIC;
+		DAV : in std_logic;
+		TXclk : in std_logic;
+		txD:out STD_LOGIC
+		);
+	END COMPONENT;
 
+	SIGNAL sig_DAC, sig_kVal 	: STD_LOGIC;
+	SIGNAL sig_D 				: STD_LOGIC_VECTOR(3 downto 0);
 
-Component KeyboardReaderWrapper is
-    Port (
-         CLK 	: IN  std_logic;
-			RESET : IN std_logic;
-         KLINS : IN  std_logic_vector(3 downto 0);
-         ACK 	: IN  std_logic;
-         KCOLS : OUT  std_logic_vector(2 downto 0);
-         D 		: OUT  std_logic_vector(3 downto 0);
-         DVAL 	: OUT  std_logic
-        );
-end Component;
+	BEGIN
+		uKeyDecode:KeyDecode
+			PORT MAP (
+			clk  		=> clk,
+			reset 		=> reset,
+			KEYPAD_LIN	=> KEYPAD_LIN,
+			KEYPAD_COL	=> KEYPAD_COL,
+			kVal 		=> sig_kVal,
+			kAck 		=> sig_DAC,
+			K 			=> sig_D
+			);
 
+		DBUG <= sig_kVal;
 
-SIGNAL sig_DAC, sig_kVal : STD_LOGIC;
-SIGNAL sig_D : std_logic_vector(3 downto 0);
-SIGNAL SIG_COLS :STD_logic_vector(2 downto 0);
-
-
-BEGIN
---uKeyDecode:KeyDecode
---	PORT MAP(
---		clk    =>clk,
---		reset => reset,
---		KEYPAD_LIN => KEYPAD_LIN,
---		KEYPAD_COL => KEYPAD_COL,
---		kVal => sig_kVal,
---		kAck => sig_DAC,
---		K =>sig_D
---	);
---	DBUG <=sig_kVal;
---uKeyTransmitter:KeyTransmitter
---	PORT MAP(
---		clk    =>clk,
---		reset => reset,
---		TXclk => TXclk,
---		DAV => sig_kVal,
---		DAC => sig_DAC,
---		D=>sig_D,
---		txD => TXd
---	);
-
-uKeyWrapper:KeyboardReaderWrapper
-	PORT MAP(
-		CLK 	=> clk,
-		RESET   => reset,
-	 	KLINS   => KEYPAD_LIN,
-	 	ACK 	=> sig_DAC,
-	 	KCOLS   => SIG_COLS,
-	 	D 		=> sig_D,
-	 	DVAL 	=> sig_kVal
-	);
-
+		uKeyTransmitter:KeyTransmitter
+			PORT MAP(
+			clk		=> clk,
+			reset	=> reset,
+			TXclk	=> TXclk,
+			DAV		=> sig_kVal,
+			DAC		=> sig_DAC,
+			D		=> sig_D,
+			txD		=> TXd
+			);
+			
 END accKeyboardReader;
