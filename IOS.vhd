@@ -49,7 +49,7 @@ SIGNAL sig_D : STD_LOGIC_VECTOR(9 downto 0);
 BEGIN
 
 uClkDIV:clkDIV
-	GENERIC MAP ( div => 2600000 )
+	GENERIC MAP ( div => 20 )
 	PORT MAP (
 		clk_in 	=> clk,
 		clk_out	=> sig_clkDivided
