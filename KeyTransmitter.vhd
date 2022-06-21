@@ -33,6 +33,14 @@ ARCHITECTURE behaviour OF KeyTransmitter IS
 		);
 	END COMPONENT;
 
+	COMPONENT TxDOutputMux
+		PORT (
+		selector: IN STD_LOGIC_VECTOR(2 downto 0);
+		d_in    : IN STD_LOGIC_VECTOR(3 downto 0);
+			
+		result  : OUT STD_LOGIC
+		);
+	END COMPONENT;
 
 
 	SIGNAL sig_reset_counter, sig_txD, sig_st_tx, sig_enable, sig_fnsh, sig_wr : STD_LOGIC;
@@ -80,21 +88,12 @@ ARCHITECTURE behaviour OF KeyTransmitter IS
 			q(1)    => temp_D(3)
 			);
 
-	
-		pMux:
-		process (sig_out_D, temp_D, sig_txD)
-			begin				
-				case sig_out_D is
-					when "000" =>  sig_txD <= '0';
-					when "001" =>  sig_txD <= '1';
-					when "010" =>  sig_txD <= temp_D(0);
-					when "011" =>  sig_txD <= temp_D(1);
-					when "100" =>  sig_txD <= temp_D(2);
-					when "101" =>  sig_txD <= temp_D(3);
-					when "110" =>  sig_txD <= '0';
-					when others => sig_txD <= sig_txD;
-				end case;				
-		end process;
+		uMux:TxDOutputMux
+			PORT MAP (
+			selector => sig_out_D,
+			d_in     => temp_D,
+			result   => sig_txD
+			);
 		
 		sig_fnsh <= '1' when sig_out_D = "111" else '0';
 
