@@ -4,12 +4,13 @@ use IEEE.std_logic_arith.ALL;
 
 ENTITY KeyScan IS
 	PORT (	
-		clk,reset,Kscan	: IN STD_LOGIC;
-		KEYPAD_LIN		: IN STD_LOGIC_VECTOR(3 downto 0);
+		clk,reset	: IN STD_LOGIC;
+		Kscan		: IN STD_LOGIC_VECTOR;
+		KEYPAD_LIN	: IN STD_LOGIC_VECTOR(3 downto 0);
 		
-		Kpress			: OUT STD_LOGIC;
-		KEYPAD_COL		: OUT STD_LOGIC_VECTOR(2 downto 0);		
-		K				: OUT STD_LOGIC_VECTOR(3 downto 0) := "0000"
+		Kpress		: OUT STD_LOGIC;
+		KEYPAD_COL	: OUT STD_LOGIC_VECTOR(2 downto 0);		
+		K			: OUT STD_LOGIC_VECTOR(3 downto 0) := "0000"
 	);
 END KeyScan;
 
@@ -49,7 +50,7 @@ ARCHITECTURE accKeyScan OF KeyScan IS
 		);
 	END COMPONENT;
 
-	SIGNAL nCLK,nKscan	: STD_LOGIC;
+	SIGNAL nCLK			: STD_LOGIC;
 	SIGNAL sig_q,sig_Y,
 		   sig_regOut	: STD_LOGIC_VECTOR(1 downto 0);
 	SIGNAL sig_cols		: STD_LOGIC_VECTOR(2 downto 0);
@@ -59,7 +60,7 @@ BEGIN
 		PORT MAP(
 		clk => nCLK,
 		clr => '0',
-		enable => Kscan,
+		enable => Kscan(0),
 		out_D => sig_q
 		);	
 
@@ -78,13 +79,12 @@ BEGIN
 
 	uRegister:RegisterBank
 		PORT MAP(
-		clk  => nKscan,
+		clk  => Kscan(1),
 		d_in => sig_Y,
 		q	 => sig_regOut
 		);
 
 	nCLK   <= not clk;
-	nKscan <= not Kscan;
 	
 	KEYPAD_COL(0) <= sig_cols(0); 
 	KEYPAD_COL(1) <= sig_cols(1);  

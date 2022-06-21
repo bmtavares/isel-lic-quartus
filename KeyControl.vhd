@@ -4,9 +4,11 @@ use IEEE.STD_LOGIC_1164.ALL;
 
 entity KeyControl is
 	port(
-	clk,kAck,kPress,reset : IN STD_LOGIC;
+	clk,kAck,
+	kPress,reset : IN STD_LOGIC;
 
-	kVal,kScan 			  : OUT STD_LOGIC
+	kVal   		 : OUT STD_LOGIC;
+	kScan		 : OUT STD_LOGIC_VECTOR(1 downto 0)
 	);
 end KeyControl;
 
@@ -59,7 +61,8 @@ architecture behaviour of KeyControl is
 				end case;				
 		end process;
 				
-	kScan <= '1' when CurrentState=STATE_WAITING_KEY else '0';
+	kScan(0) <= '1' when CurrentState=STATE_WAITING_KEY else '0';
+	kScan(1) <= '0' when CurrentState=STATE_WAITING_KEY else '1';
 	kVal <= '1' when CurrentState=STATE_KEY_READY else '0';
 	
 end behaviour;

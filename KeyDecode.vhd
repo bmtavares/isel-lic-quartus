@@ -17,25 +17,29 @@ Architecture accKeyDecode of KeyDecode is
 
 COMPONENT KeyControl
 	PORT (
-   	clk, kAck, kPress, reset	: IN STD_LOGIC;
+   	clk,kAck,
+	kPress,reset : IN STD_LOGIC;
 
-	kVal, kScan					: OUT STD_LOGIC
+	kVal		 : OUT STD_LOGIC;
+	kScan		 : OUT STD_LOGIC_VECTOR(1 downto 0)
 	);
 END COMPONENT;
 
 COMPONENT KeyScan
 	PORT (
-	clk, reset, Kscan	: IN STD_LOGIC;
-	KEYPAD_LIN 			: IN STD_LOGIC_VECTOR(3 downto 0);	
+	clk, reset	: IN STD_LOGIC;
+	Kscan		: IN STD_LOGIC_VECTOR(1 downto 0);
+	KEYPAD_LIN	: IN STD_LOGIC_VECTOR(3 downto 0);	
 
-	Kpress 				: OUT STD_LOGIC;
-	KEYPAD_COL 			: OUT STD_LOGIC_VECTOR(2 downto 0);
-	K					: OUT STD_LOGIC_VECTOR(3 downto 0)
+	Kpress 		: OUT STD_LOGIC;
+	KEYPAD_COL 	: OUT STD_LOGIC_VECTOR(2 downto 0);
+	K			: OUT STD_LOGIC_VECTOR(3 downto 0)
 	);
 END COMPONENT;
 
 
-SIGNAL sig_Kpress, sig_kScan : STD_LOGIC;
+SIGNAL sig_Kpress : STD_LOGIC;
+SIGNAL sig_kScan : STD_LOGIC_VECTOR(1 downto 0);
 
 BEGIN
 	uKeyControl:KeyControl
