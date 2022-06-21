@@ -2,13 +2,13 @@ library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.numeric_std.ALL;
   
-entity CLKDIV is
+entity clkDIV is
 generic(div: natural := 50000000);
 port ( clk_in: in std_logic;
 		 clk_out: out std_logic);
-end CLKDIV;
+end clkDIV;
   
-architecture bhv of CLKDIV is
+architecture bhv of clkDIV is
   
 signal count: integer:=1;
 signal tmp : std_logic := '0';

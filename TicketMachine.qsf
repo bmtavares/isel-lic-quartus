@@ -97,27 +97,6 @@ set_location_assignment PIN_AB12 -to KEYPAD_LIN[3]
 set_location_assignment PIN_AB11 -to KEYPAD_COL[0]
 set_location_assignment PIN_AB10 -to KEYPAD_COL[1]
 set_location_assignment PIN_AA9 -to KEYPAD_COL[2]
-set_global_assignment -name VHDL_FILE TicketMachine.vhd
-set_global_assignment -name VHDL_FILE Counter_toT.vhd
-set_global_assignment -name VHDL_FILE KeyboardReader.vhd
-set_global_assignment -name VHDL_FILE KeyTransmitterControl.vhd
-set_global_assignment -name VHDL_FILE CounterEnable.vhd
-set_global_assignment -name VHDL_FILE KeyTransmitter.vhd
-set_global_assignment -name VHDL_FILE KeyDecode.vhd
-set_global_assignment -name VHDL_FILE KeyControl.vhd
-set_global_assignment -name VHDL_FILE KeyScan.vhd
-set_global_assignment -name VHDL_FILE int7seg.vhd
-set_global_assignment -name VHDL_FILE decoderHex.vhd
-set_global_assignment -name VHDL_FILE TDispenser.vhd
-set_global_assignment -name VHDL_FILE ShiftRegister.vhd
-set_global_assignment -name VHDL_FILE SerialReceiver.vhd
-set_global_assignment -name VHDL_FILE SerialControl.vhd
-set_global_assignment -name VHDL_FILE ParityCheck.vhd
-set_global_assignment -name VHDL_FILE IOS.vhd
-set_global_assignment -name VHDL_FILE Dispatcher.vhd
-set_global_assignment -name VHDL_FILE Counter.vhd
-set_global_assignment -name VHDL_FILE UsbPort.vhd
-set_global_assignment -name VHDL_FILE clkDIV.vhd
 set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
 set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
 set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
@@ -141,4 +120,28 @@ set_location_assignment PIN_A13 -to SWITCH[6]
 set_location_assignment PIN_A14 -to SWITCH[7]
 set_location_assignment PIN_B14 -to SWITCH[8]
 set_location_assignment PIN_F15 -to SWITCH[9]
+set_global_assignment -name VHDL_FILE clkDIV.vhd
+set_global_assignment -name VHDL_FILE RegisterBank.vhd
+set_global_assignment -name VHDL_FILE PriorityEncoder.vhd
+set_global_assignment -name VHDL_FILE Decoder.vhd
+set_global_assignment -name VHDL_FILE TicketMachine.vhd
+set_global_assignment -name VHDL_FILE Counter_toT.vhd
+set_global_assignment -name VHDL_FILE KeyboardReader.vhd
+set_global_assignment -name VHDL_FILE KeyTransmitterControl.vhd
+set_global_assignment -name VHDL_FILE CounterEnable.vhd
+set_global_assignment -name VHDL_FILE KeyTransmitter.vhd
+set_global_assignment -name VHDL_FILE KeyDecode.vhd
+set_global_assignment -name VHDL_FILE KeyControl.vhd
+set_global_assignment -name VHDL_FILE KeyScan.vhd
+set_global_assignment -name VHDL_FILE int7seg.vhd
+set_global_assignment -name VHDL_FILE decoderHex.vhd
+set_global_assignment -name VHDL_FILE TDispenser.vhd
+set_global_assignment -name VHDL_FILE ShiftRegister.vhd
+set_global_assignment -name VHDL_FILE SerialReceiver.vhd
+set_global_assignment -name VHDL_FILE SerialControl.vhd
+set_global_assignment -name VHDL_FILE ParityCheck.vhd
+set_global_assignment -name VHDL_FILE IOS.vhd
+set_global_assignment -name VHDL_FILE Dispatcher.vhd
+set_global_assignment -name VHDL_FILE Counter.vhd
+set_global_assignment -name VHDL_FILE UsbPort.vhd
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
