@@ -14,20 +14,21 @@ COMPONENT KeyboardReader is
 	clk, reset : in std_logic;
 	KEYPAD_LIN : IN STD_LOGIC_vector(3 downto 0);	
 	KEYPAD_COL : OUT STD_LOGIC_vector(2 downto 0);
-	TXd, DBUG: out std_logic;
+	TXd : out std_logic;
 	TXclk : in std_logic
 	);
 end COMPONENT;
 
 constant MCLK_PERIOD : time := 20 ns;
 constant MCLK_HALF_PERIOD : time := MCLK_PERIOD / 2;
+constant CLK_DIV_DIVISOR : natural := 500;
 
 --Inputs
 SIGNAL clk_tb, reset_tb, TXclk_tb : STD_LOGIC;
 SIGNAL KEYPAD_LIN_tb : STD_LOGIC_vector(3 downto 0);
 
 --Outputs
-SIGNAL TXd_tb, DBUG_tb : STD_LOGIC;
+SIGNAL TXd_tb : STD_LOGIC;
 SIGNAL KEYPAD_COL_tb : STD_LOGIC_vector(2 downto 0);
 
 BEGIN
@@ -39,7 +40,6 @@ uut: KeyboardReader PORT MAP(
 	KEYPAD_LIN => KEYPAD_LIN_tb,
 	KEYPAD_COL => KEYPAD_COL_tb,
 	TXd => TXd_tb,
-	DBUG => DBUG_tb,
 	TXclk => TXclk_tb
 	);
 
@@ -59,11 +59,11 @@ BEGIN
     reset_tb <= '0';
 	TXclk_tb <= '0';
 
-    wait for MCLK_PERIOD * 3;
+    wait for MCLK_PERIOD * 3 * CLK_DIV_DIVISOR;
 
 	KEYPAD_LIN_tb <= "1110";
 
-	wait for MCLK_PERIOD * 7;
+	wait for MCLK_PERIOD * 7 * CLK_DIV_DIVISOR;
 
 	-- Waiting for control software
 	assert TXd_tb = '0'
@@ -71,7 +71,7 @@ BEGIN
 
 	for I in 0 to 6 loop
 		TXclk_tb <= '1';
-		wait for MCLK_PERIOD * 3;
+		wait for MCLK_PERIOD * 3 * CLK_DIV_DIVISOR;
 
 		if (I = 0) then
 			-- Start bit
@@ -88,11 +88,12 @@ BEGIN
 		end if;
 
 		TXclk_tb <= '0';
-		wait for MCLK_PERIOD * 3;
+		wait for MCLK_PERIOD * 3 * CLK_DIV_DIVISOR;
 	end loop;
 
-	wait for MCLK_PERIOD * 10;
+	wait for MCLK_PERIOD * 10 * CLK_DIV_DIVISOR;
 
+	assert false report "Test finish." severity failure;
 	wait;
 
 END PROCESS;
