@@ -17,16 +17,6 @@ set_global_assignment -name INTERNAL_FLASH_UPDATE_MODE "SINGLE IMAGE WITH ERAM"
 
 set_location_assignment PIN_P11 -to clk
 
-set_location_assignment PIN_C10 -to Sensor
-set_location_assignment PIN_C11 -to SWITCH1
-#set_location_assignment PIN_D12 -to inputPort[2]
-set_location_assignment PIN_C12 -to HasCoin
-#set_location_assignment PIN_A12 -to inputPort[4]
-set_location_assignment PIN_B12 -to Coin[0]
-set_location_assignment PIN_A13 -to Coin[1]
-set_location_assignment PIN_A14 -to Coin[2]
-
-
 #========================================================0
 # DE10-Lite Exp. Board v1.0
 #========================================================0
@@ -60,7 +50,6 @@ set_location_assignment PIN_AB11   -to	KEYPAD_COL[0]
 set_location_assignment PIN_AB10   -to	KEYPAD_COL[1]
 set_location_assignment PIN_AA9    -to	KEYPAD_COL[2]
 set_location_assignment PIN_AA8    -to	KEYPAD_COL[3]
-
 
 #============================================================
 # HEX0
@@ -185,10 +174,10 @@ set_location_assignment PIN_L19 -to HEX5[7]
 #============================================================
 # KEY
 #============================================================
-set_instance_assignment -name IO_STANDARD "3.3 V SCHMITT TRIGGER" -to KEY[0]
-set_instance_assignment -name IO_STANDARD "3.3 V SCHMITT TRIGGER" -to KEY[1]
-set_location_assignment PIN_B8 -to KEY[0]
-set_location_assignment PIN_A7 -to KEY[1]
+#set_instance_assignment -name IO_STANDARD "3.3 V SCHMITT TRIGGER" -to KEY[0]
+#set_instance_assignment -name IO_STANDARD "3.3 V SCHMITT TRIGGER" -to KEY[1]
+#set_location_assignment PIN_B8 -to KEY[0]
+#set_location_assignment PIN_A7 -to KEY[1]
 
 #============================================================
 # LED
@@ -213,3 +202,27 @@ set_location_assignment PIN_E14 -to LEDR[6]
 set_location_assignment PIN_D14 -to LEDR[7]
 set_location_assignment PIN_A11 -to LEDR[8]
 set_location_assignment PIN_B11 -to LEDR[9]
+
+#============================================================
+# SWITCH
+#============================================================
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SWITCH[0]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SWITCH[1]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SWITCH[2]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SWITCH[3]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SWITCH[4]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SWITCH[5]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SWITCH[6]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SWITCH[7]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SWITCH[8]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SWITCH[9]
+set_location_assignment PIN_C10 -to SWITCH[0]
+set_location_assignment PIN_C11 -to SWITCH[1]
+set_location_assignment PIN_D12 -to SWITCH[2]
+set_location_assignment PIN_C12 -to SWITCH[3]
+set_location_assignment PIN_A12 -to SWITCH[4]
+set_location_assignment PIN_B12 -to SWITCH[5]
+set_location_assignment PIN_A13 -to SWITCH[6]
+set_location_assignment PIN_A14 -to SWITCH[7]
+set_location_assignment PIN_B14 -to SWITCH[8]
+set_location_assignment PIN_F15 -to SWITCH[9]

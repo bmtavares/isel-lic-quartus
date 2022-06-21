@@ -3,11 +3,9 @@ use IEEE.std_logic_1164.all;
 
 entity TicketMachine is
 	port (
-	clk,Sensor,
-	SWITCH1,HasCoin	: IN STD_LOGIC;
-	KEY 			: IN STD_LOGIC_VECTOR(1 downto 0);
-	Coin			: IN STD_LOGIC_VECTOR(2 downto 0);
-	KEYPAD_LIN		: IN STD_LOGIC_VECTOR(3 downto 0);	
+	clk				: IN STD_LOGIC;
+	KEYPAD_LIN		: IN STD_LOGIC_VECTOR(3 downto 0);
+	SWITCH			: IN STD_LOGIC_VECTOR(9 downto 0);
 
 	LCD_RS, LCD_EN 	: OUT STD_LOGIC;
 	KEYPAD_COL 		: OUT STD_LOGIC_VECTOR(2 downto 0);
@@ -104,7 +102,7 @@ Architecture behaviour of TicketMachine is
 			HEX1 	=> HEX1,
 			HEX3 	=> HEX3,
 			HEX5 	=> HEX5,
-			Sensor	=> Sensor
+			Sensor	=> SWITCH(0)
 			);
 
 		uKeyboard:KeyboardReader
@@ -142,24 +140,24 @@ Architecture behaviour of TicketMachine is
 		LCD_DATA(6) <= sig_dOut(7);
 		LCD_DATA(7) <= sig_dOut(8);
 
-		-- coin aceptor
-		sig_inputPort(0) <= Coin(0);
-		sig_inputPort(1) <= Coin(1);
-		sig_inputPort(2) <= Coin(2);
-		sig_inputPort(3) <= HasCoin;
+		-- Coin Acceptor
+		sig_inputPort(0) <= SWITCH(5); --Coin[0]
+		sig_inputPort(1) <= SWITCH(6); --Coin[1]
+		sig_inputPort(2) <= SWITCH(7); --Coin[2]
+		sig_inputPort(3) <= SWITCH(3); --HasCoin
 
 		-- Maintenence Key
-		sig_inputPort(7) <= SWITCH1;
+		sig_inputPort(7) <= SWITCH(1);
 
 		-- LEDs
-		LEDR(0) <= Sensor;
-		LEDR(1) <= SWITCH1;
+		LEDR(0) <= SWITCH(0); --Finish/sensor
+		LEDR(1) <= SWITCH(1); --Maintenence
 		-- LEDR(2) <= ;
-		LEDR(3) <= HasCoin;
+		LEDR(3) <= SWITCH(3); --HasCoin
 		LEDR(4) <= outputPort_sync(5); --Accept
-		LEDR(5) <= Coin(0);
-		LEDR(6) <= Coin(1);
-		LEDR(7) <= Coin(2);
+		LEDR(5) <= SWITCH(5); --Coin[0]
+		LEDR(6) <= SWITCH(6); --Coin[1]
+		LEDR(7) <= SWITCH(7); --Coin[2]
 		LEDR(8) <= outputPort_sync(6); --Collect
 		LEDR(9) <= outputPort_sync(7); --Eject
 
