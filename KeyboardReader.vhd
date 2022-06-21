@@ -6,7 +6,7 @@ ENTITY KeyboardReader IS
 	clk,reset,TXclk	: IN  STD_LOGIC;
 	KEYPAD_LIN 		: IN  STD_LOGIC_VECTOR(3 downto 0);
 
-	TXd, DBUG		: OUT STD_LOGIC;
+	TXd				: OUT STD_LOGIC;
 	KEYPAD_COL 		: OUT STD_LOGIC_VECTOR(2 downto 0)
 	);
 END KeyboardReader;
@@ -64,8 +64,6 @@ Architecture accKeyboardReader of KeyboardReader is
 			kAck 		=> sig_DAC,
 			K 			=> sig_D
 			);
-
-		DBUG <= sig_kVal;
 
 		uKeyTransmitter:KeyTransmitter
 			PORT MAP (
