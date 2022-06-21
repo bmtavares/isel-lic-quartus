@@ -12,8 +12,7 @@ entity TicketMachine is
 	LCD_RS, LCD_EN 	: OUT STD_LOGIC;
 	KEYPAD_COL 		: OUT STD_LOGIC_VECTOR(2 downto 0);
 	LCD_DATA 		: OUT STD_LOGIC_VECTOR(7 downto 0);
-	HEX0,HEX1,HEX2,
-	HEX3,HEX4,HEX5	: OUT STD_LOGIC_VECTOR(7 downto 0) := "00000000";
+	HEX1,HEX3,HEX5	: OUT STD_LOGIC_VECTOR(7 downto 0) := "00000000";
 	pinsDebug		: OUT STD_LOGIC_VECTOR(9 downto 0) := "0000000000"
 	);
 end TicketMachine;
@@ -45,8 +44,7 @@ Architecture behaviour of TicketMachine is
 		DId,OId 		: IN STD_LOGIC_VECTOR(3 downto 0);
 
 		Fn 				: OUT STD_LOGIC;
-		HEX0,HEX1,HEX2,
-		HEX3,HEX4,HEX5	: OUT STD_LOGIC_VECTOR(7 downto 0) := "11111111"
+		HEX1,HEX3,HEX5	: OUT STD_LOGIC_VECTOR(7 downto 0) := "11111111"
 		);
 	END COMPONENT;
 	
@@ -100,17 +98,12 @@ Architecture behaviour of TicketMachine is
 			DId(1) 	=> SDout(2),
 			DId(2) 	=> SDout(3),
 			DId(3) 	=> SDout(4),
-
 			OId(0) 	=> SDout(5),
 			OId(1) 	=> SDout(6),
 			OId(2) 	=> SDout(7),
 			OId(3) 	=> SDout(8),
-
-			HEX0 	=> HEX0,
 			HEX1 	=> HEX1,
-			HEX2 	=> HEX2,
 			HEX3 	=> HEX3,
-			HEX4 	=> HEX4,
 			HEX5 	=> HEX5,
 			Sensor	=> Sensor
 			);

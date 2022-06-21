@@ -7,7 +7,7 @@ port(
 	Sensor : in std_logic;
 	Fn : out std_logic;	
 	DId, OId : in STD_LOGIC_VECTOR(3 downto 0)	;
-	HEX0,HEX1,HEX2,HEX3,HEX4, HEX5 : out STD_LOGIC_VECTOR(7 downto 0) := "11111111"
+	HEX1,HEX3,HEX5 : out STD_LOGIC_VECTOR(7 downto 0) := "11111111"
 	);
 end TDispenser;
 
