@@ -24,6 +24,15 @@ ARCHITECTURE behaviour OF KeyTransmitter IS
 		);
 	END COMPONENT;
 
+	COMPONENT RegisterBank
+		PORT (
+		clk,en  : IN STD_LOGIC;
+		d_in    : IN STD_LOGIC_VECTOR(1 downto 0);
+			
+		q	    : OUT STD_LOGIC_VECTOR(1 downto 0)
+		);
+	END COMPONENT;
+
 
 
 	SIGNAL sig_reset_counter, sig_txD, sig_st_tx, sig_enable, sig_fnsh, sig_wr : STD_LOGIC;
@@ -51,10 +60,26 @@ ARCHITECTURE behaviour OF KeyTransmitter IS
 			wr => sig_wr
 		);
 
-		temp_D(0) <= D(0) when (rising_edge(clk) and sig_wr = '1') else temp_D(0);
-		temp_D(1) <= D(1) when (rising_edge(clk) and sig_wr = '1') else temp_D(1);
-		temp_D(2) <= D(2) when (rising_edge(clk) and sig_wr = '1') else temp_D(2);
-		temp_D(3) <= D(3) when (rising_edge(clk) and sig_wr = '1') else temp_D(3);
+		uRegBank1:RegisterBank
+			PORT MAP (
+			clk		=> clk,
+			en		=> sig_wr,
+			d_in(0) => D(0),
+			d_in(1) => D(1),
+			q(0)    => temp_D(0),
+			q(1)    => temp_D(1)
+			);
+
+		uRegBank2:RegisterBank
+			PORT MAP (
+			clk		=> clk,
+			en		=> sig_wr,
+			d_in(0) => D(2),
+			d_in(1) => D(3),
+			q(0)    => temp_D(2),
+			q(1)    => temp_D(3)
+			);
+
 	
 		pMux:
 		process (sig_out_D, temp_D, sig_txD)
@@ -63,7 +88,7 @@ ARCHITECTURE behaviour OF KeyTransmitter IS
 					when "000" =>  sig_txD <= '0';
 					when "001" =>  sig_txD <= '1';
 					when "010" =>  sig_txD <= temp_D(0);
-					when "011" =>	sig_txD <= temp_D(1);
+					when "011" =>  sig_txD <= temp_D(1);
 					when "100" =>  sig_txD <= temp_D(2);
 					when "101" =>  sig_txD <= temp_D(3);
 					when "110" =>  sig_txD <= '0';
@@ -71,19 +96,9 @@ ARCHITECTURE behaviour OF KeyTransmitter IS
 				end case;				
 		end process;
 		
---		sig_txD <=  '0' when sig_out_D = "000" else
---						'1' when sig_out_D = "001" else
---						temp_D(0) when sig_out_d = "010" else
---						temp_D(1) when sig_out_d = "011" else
---						temp_D(2) when sig_out_d = "100" else
---						temp_D(3) when sig_out_d = "101" else
---						'0' when sig_out_d = "110" else
---						sig_txD;
-		
-
 		sig_fnsh <= '1' when sig_out_D = "111" else '0';
 
-	txD <= sig_txD OR sig_st_tx;
+		txD <= sig_txD OR sig_st_tx;
 	
 
 END behaviour;
