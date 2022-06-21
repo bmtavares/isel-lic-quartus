@@ -26,17 +26,6 @@ set_location_assignment PIN_B12 -to Coin[0]
 set_location_assignment PIN_A13 -to Coin[1]
 set_location_assignment PIN_A14 -to Coin[2]
 
-set_location_assignment PIN_A8 -to pinsDebug[0]
-set_location_assignment PIN_A9 -to pinsDebug[1]
-set_location_assignment PIN_A10 -to pinsDebug[2]
-set_location_assignment PIN_B10 -to pinsDebug[3]
-set_location_assignment PIN_D13 -to pinsDebug[4]
-set_location_assignment PIN_C13 -to pinsDebug[5]
-set_location_assignment PIN_E14 -to pinsDebug[6]
-set_location_assignment PIN_D14 -to pinsDebug[7]
-set_location_assignment PIN_A11 -to pinsDebug[8]
-set_location_assignment PIN_B11 -to pinsDebug[9]
-
 
 #========================================================0
 # DE10-Lite Exp. Board v1.0

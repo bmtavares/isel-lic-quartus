@@ -13,7 +13,7 @@ entity TicketMachine is
 	KEYPAD_COL 		: OUT STD_LOGIC_VECTOR(2 downto 0);
 	LCD_DATA 		: OUT STD_LOGIC_VECTOR(7 downto 0);
 	HEX1,HEX3,HEX5	: OUT STD_LOGIC_VECTOR(7 downto 0) := "00000000";
-	pinsDebug		: OUT STD_LOGIC_VECTOR(9 downto 0) := "0000000000"
+	LEDR			: OUT STD_LOGIC_VECTOR(9 downto 0) := "0000000000"
 	);
 end TicketMachine;
 
@@ -153,15 +153,15 @@ Architecture behaviour of TicketMachine is
 		SinputPort(7) <= SWITCH1;
 
 		-- LEDs
-		pinsDebug(0) <= Sensor;
-		pinsDebug(1) <= SWITCH1;
-		-- pinsDebug(2) <= NOT sig_KBD_Line(2);
-		pinsDebug(3) <= HasCoin;
-		pinsDebug(4) <= usb_reg(5); --Accept
-		pinsDebug(5) <= Coin(0);
-		pinsDebug(6) <= Coin(1);
-		pinsDebug(7) <= Coin(2);
-		pinsDebug(8) <= usb_reg(6); --Collect
-		pinsDebug(9) <= usb_reg(7); --Eject
+		LEDR(0) <= Sensor;
+		LEDR(1) <= SWITCH1;
+		-- LEDR(2) <= ;
+		LEDR(3) <= HasCoin;
+		LEDR(4) <= usb_reg(5); --Accept
+		LEDR(5) <= Coin(0);
+		LEDR(6) <= Coin(1);
+		LEDR(7) <= Coin(2);
+		LEDR(8) <= usb_reg(6); --Collect
+		LEDR(9) <= usb_reg(7); --Eject
 
 END behaviour;
