@@ -23,7 +23,6 @@ Architecture behaviour of TicketMachine is
 		notSS,Fsh,reset	: IN STD_LOGIC;
 
 		busy, wrt, wrl	: OUT STD_LOGIC;
-		DEBUG			: OUT STD_LOGIC_VECTOR(5 downto 0);
 		Dout			: OUT STD_LOGIC_VECTOR(8 downto 0)
 		);
 	END COMPONENT;
@@ -59,7 +58,6 @@ Architecture behaviour of TicketMachine is
 	-- Signals
 	SIGNAL sig_wrt,sig_wrl,sig_fn	: STD_LOGIC;
 	SIGNAL sig_masterReset			: STD_LOGIC := '1';
-	SIGNAL DEBUG 					: STD_LOGIC_VECTOR(5 downto 0);
 	SIGNAL outputPort_sync,sig_inputPort,
 		   sig_outputPort 			: STD_LOGIC_VECTOR(7 downto 0);
 	SIGNAL sig_dOut 				: STD_LOGIC_VECTOR(8 downto 0);
@@ -82,8 +80,7 @@ Architecture behaviour of TicketMachine is
 			wrt 	=> sig_wrt,
 			wrl 	=> sig_wrl,     
 			Dout 	=> sig_dOut,
-			reset 	=> sig_masterReset,
-			DEBUG 	=> DEBUG
+			reset 	=> sig_masterReset
 			);
 
 		uTDispenser:TDispenser

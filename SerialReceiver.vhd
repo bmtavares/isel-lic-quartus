@@ -5,8 +5,7 @@ ENTITY SerialReceiver IS
 PORT(
    clk, SCLK, SDX, notSS, accept, reset : in std_logic;
    busy, DXval : out std_logic;
-	D : out std_logic_vector(9 downto 0);
-	DEBUG : out std_logic_vector(5 downto 0)
+   D : out std_logic_vector(9 downto 0)
 );
 
 END SerialReceiver;
@@ -17,8 +16,7 @@ ARCHITECTURE behaviour OF SerialReceiver IS
 COMPONENT SerialControl
 	PORT (
 		clk,notSS,accept,pFlag,dFlag,RXerror, reset : in STD_LOGIC;
-		wr,init,DXval,busy : out STD_LOGIC;
-		DEBUG : out std_logic_vector(5 downto 0)
+		wr,init,DXval,busy : out STD_LOGIC
 	);
 END COMPONENT;
 
@@ -59,8 +57,7 @@ BEGIN
 		init 	  => sig_init,
 		DXval   => sig_DXval,
 		busy 	  => sig_busy,
-		reset   => reset,
-		DEBUG => DEBUG
+		reset   => reset
 	);
 
 	uShiftRegister:ShiftRegister PORT MAP(
