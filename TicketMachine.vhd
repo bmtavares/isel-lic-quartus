@@ -1,7 +1,7 @@
 LIBRARY IEEE;
 use IEEE.std_logic_1164.all;
 
-entity HW is
+entity TicketMachine is
 	port (
 	clk,Sensor,
 	SWITCH1,HasCoin	: IN STD_LOGIC;
@@ -16,9 +16,9 @@ entity HW is
 	HEX3,HEX4,HEX5	: OUT STD_LOGIC_VECTOR(7 downto 0) := "00000000";
 	pinsDebug		: OUT STD_LOGIC_VECTOR(9 downto 0) := "0000000000"
 	);
-end HW;
+end TicketMachine;
 
-Architecture accHW of HW is
+Architecture behaviour of TicketMachine is
 	-- Components
 	COMPONENT IOS
 		PORT (
@@ -171,4 +171,4 @@ Architecture accHW of HW is
 		pinsDebug(8) <= usb_reg(6); --Collect
 		pinsDebug(9) <= usb_reg(7); --Eject
 
-END accHW;
+END behaviour;

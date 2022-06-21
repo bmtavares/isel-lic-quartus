@@ -39,7 +39,7 @@
 
 set_global_assignment -name FAMILY "MAX 10"
 set_global_assignment -name DEVICE 10M50DAF484C6GES
-set_global_assignment -name TOP_LEVEL_ENTITY HW
+set_global_assignment -name TOP_LEVEL_ENTITY TicketMachine
 set_global_assignment -name ORIGINAL_QUARTUS_VERSION 20.1.1
 set_global_assignment -name PROJECT_CREATION_TIME_DATE "18:58:24  APRIL 07, 2022"
 set_global_assignment -name LAST_QUARTUS_VERSION "20.1.1 Lite Edition"
@@ -99,9 +99,6 @@ set_location_assignment PIN_M20 -to HEX5[4]
 set_location_assignment PIN_N19 -to HEX5[5]
 set_location_assignment PIN_N20 -to HEX5[6]
 set_location_assignment PIN_L19 -to HEX5[7]
-set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
-set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
-set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
 set_location_assignment PIN_A8 -to pinsDebug[0]
 set_location_assignment PIN_A9 -to pinsDebug[1]
 set_location_assignment PIN_A10 -to pinsDebug[2]
@@ -149,6 +146,11 @@ set_location_assignment PIN_AB11 -to KEYPAD_COL[0]
 set_location_assignment PIN_AB10 -to KEYPAD_COL[1]
 set_location_assignment PIN_AA9 -to KEYPAD_COL[2]
 set_location_assignment PIN_AA8 -to KEYPAD_COL[3]
+set_location_assignment PIN_C12 -to HasCoin
+set_location_assignment PIN_B12 -to Coin[0]
+set_location_assignment PIN_A13 -to Coin[1]
+set_location_assignment PIN_A14 -to Coin[2]
+set_global_assignment -name VHDL_FILE TicketMachine.vhd
 set_global_assignment -name VHDL_FILE Counter_toT.vhd
 set_global_assignment -name VHDL_FILE KeyboardReader.vhd
 set_global_assignment -name VHDL_FILE KeyTransmitterControl.vhd
@@ -160,7 +162,6 @@ set_global_assignment -name VHDL_FILE KeyScan.vhd
 set_global_assignment -name VHDL_FILE int7seg.vhd
 set_global_assignment -name VHDL_FILE decoderHex.vhd
 set_global_assignment -name VHDL_FILE TDispenser.vhd
-set_global_assignment -name VHDL_FILE HW.vhd
 set_global_assignment -name VHDL_FILE ShiftRegister.vhd
 set_global_assignment -name VHDL_FILE SerialReceiver.vhd
 set_global_assignment -name VHDL_FILE SerialControl.vhd
@@ -170,8 +171,7 @@ set_global_assignment -name VHDL_FILE Dispatcher.vhd
 set_global_assignment -name VHDL_FILE Counter.vhd
 set_global_assignment -name VHDL_FILE UsbPort.vhd
 set_global_assignment -name VHDL_FILE clkDIV.vhd
-set_location_assignment PIN_C12 -to HasCoin
-set_location_assignment PIN_B12 -to Coin[0]
-set_location_assignment PIN_A13 -to Coin[1]
-set_location_assignment PIN_A14 -to Coin[2]
+set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
+set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
