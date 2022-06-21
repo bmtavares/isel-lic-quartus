@@ -43,7 +43,7 @@ ARCHITECTURE accKeyScan OF KeyScan IS
 
 	COMPONENT RegisterBank
 		PORT (
-		clk     : IN STD_LOGIC;
+		clk,en  : IN STD_LOGIC;
 		d_in    : IN STD_LOGIC_VECTOR(1 downto 0);
 			
 		q		: OUT STD_LOGIC_VECTOR(1 downto 0)
@@ -80,6 +80,7 @@ BEGIN
 	uRegister:RegisterBank
 		PORT MAP(
 		clk  => Kscan(1),
+		en	 => '1',
 		d_in => sig_Y,
 		q	 => sig_regOut
 		);
