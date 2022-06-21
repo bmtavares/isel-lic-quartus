@@ -23,14 +23,36 @@ ARCHITECTURE accKeyScan OF KeyScan IS
 		);
 	END COMPONENT;
 
+	COMPONENT Decoder
+		PORT (	
+		encoded	: IN STD_LOGIC_VECTOR(1 downto 0);
+			
+		decoded	: OUT STD_LOGIC_VECTOR(2 downto 0)
+		);
+	END COMPONENT;
 
-	SIGNAL L0,L1,L2,L3	: STD_LOGIC;
-	SIGNAL Y1, Y0		: STD_LOGIC;
-	SIGNAL nCLK ,nKscan	: STD_LOGIC;
-	SIGNAL out_d		: STD_LOGIC_VECTOR(2 downto 0);
-	SIGNAL Q			: STD_LOGIC_VECTOR(1 downto 0);
-	SIGNAL sig0,sig1	: STD_LOGIC;
-	SIGNAL sigY0,sigY1	: STD_LOGIC := '0';
+	COMPONENT PriorityEncoder
+		PORT (	
+		decoded	: IN STD_LOGIC_VECTOR(3 downto 0);
+			
+		Y	    : OUT STD_LOGIC_VECTOR(1 downto 0);
+		GS      : OUT STD_LOGIC
+		);
+	END COMPONENT;
+
+	COMPONENT RegisterBank
+		PORT (
+		clk     : IN STD_LOGIC;
+		d_in    : IN STD_LOGIC_VECTOR(1 downto 0);
+			
+		q		: OUT STD_LOGIC_VECTOR(1 downto 0)
+		);
+	END COMPONENT;
+
+	SIGNAL nCLK,nKscan	: STD_LOGIC;
+	SIGNAL sig_q,sig_Y,
+		   sig_regOut	: STD_LOGIC_VECTOR(1 downto 0);
+	SIGNAL sig_cols		: STD_LOGIC_VECTOR(2 downto 0);
 
 BEGIN
 	usCounter_toT:Counter_toT
@@ -38,40 +60,39 @@ BEGIN
 		clk => nCLK,
 		clr => '0',
 		enable => Kscan,
-		out_D => Q
+		out_D => sig_q
 		);	
 
-	nCLK <= not clk ;
+	uDecoder:Decoder
+		PORT MAP(
+		encoded => sig_q,
+		decoded => sig_cols
+		);
+
+	uPriorityEnc:PriorityEncoder
+		PORT MAP(
+		decoded => KEYPAD_LIN,
+		Y 		=> sig_Y,
+		GS 		=> Kpress
+		);
+
+	uRegister:RegisterBank
+		PORT MAP(
+		clk  => nKscan,
+		d_in => sig_Y,
+		q	 => sig_regOut
+		);
+
+	nCLK   <= not clk;
 	nKscan <= not Kscan;
-	L0 <= not KEYPAD_LIN(0) ;
-	L1 <= not KEYPAD_LIN(1) ;
-	L2 <= not KEYPAD_LIN(2) ;
-	L3 <= not KEYPAD_LIN(3) ;
+	
+	KEYPAD_COL(0) <= sig_cols(0); 
+	KEYPAD_COL(1) <= sig_cols(1);  
+	KEYPAD_COL(2) <= sig_cols(2); 
 
-	--TODO: Não esquecer que os active lows são feitos dentro dos modulos
-
-	--TODO: Refazer decoder
-	--dec
-	KEYPAD_COL(0) <= '0' when ( Q(0) = '0' and Q(1) = '0') else '1'; 
-	KEYPAD_COL(1) <= '0' when ( Q(0) = '1' and Q(1) = '0') else '1';  
-	KEYPAD_COL(2) <= '0' when ( Q(0) = '0' and Q(1) = '1') else '1'; 
-	--end dec
-
-	--TODO:Refazer priority enc
-	--encoder
-	Y0 <= L1 or L3;
-	Y1 <= L2 or L3 ;
-	--end encoder
-
-	--TODO: Meter isto como GS do penc
-	Kpress <= L0 or L1 or L2 or L3;
-
-	sigY0 <= Y0 when rising_edge(nKscan) else sigY0;
-	sigY1 <= Y1 when rising_edge(nKscan) else sigY1;
-
-	K(0) <= sigY0;
-	K(1) <= sigY1;
-	K(2) <=  Q(0);
-	K(3) <=  Q(1);
+	K(0) <=  sig_regOut(0);
+	K(1) <=  sig_regOut(1);
+	K(2) <=  sig_q(0);
+	K(3) <=  sig_q(1);
 
 END accKeyScan;
