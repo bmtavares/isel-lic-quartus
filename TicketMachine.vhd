@@ -59,49 +59,48 @@ Architecture behaviour of TicketMachine is
 	END COMPONENT;
 
 	-- Signals
-	SIGNAL Swrt,Swrl,Sfn,
-		   sig_txD,sig_txClk,s_dbug	: STD_LOGIC;
-	SIGNAL sig_mReset				: STD_LOGIC := '1';
+	SIGNAL sig_wrt,sig_wrl,sig_fn	: STD_LOGIC;
+	SIGNAL sig_masterReset			: STD_LOGIC := '1';
 	SIGNAL DEBUG 					: STD_LOGIC_VECTOR(5 downto 0);
-	SIGNAL usb_reg,
-		   SinputPort,SoutputPort 	: STD_LOGIC_VECTOR(7 downto 0);
-	SIGNAL SDout 					: STD_LOGIC_VECTOR(8 downto 0);
+	SIGNAL outputPort_sync,sig_inputPort,
+		   sig_outputPort 			: STD_LOGIC_VECTOR(7 downto 0);
+	SIGNAL sig_dOut 				: STD_LOGIC_VECTOR(8 downto 0);
 
 	BEGIN
 		uUsbPort:UsbPort
 			PORT MAP (
-			inputPort 	=> SinputPort,
-			outputPort 	=> SoutputPort
+			inputPort 	=> sig_inputPort,
+			outputPort 	=> sig_outputPort
 			);	
 
 		uIOS:IOS
 			PORT MAP (
 			clk 	=> clk,
-			SCLK 	=> usb_reg(2),
-			SDX 	=> usb_reg(1),
-			notSS   => usb_reg(3),
-			Fsh 	=> Sfn,
-			busy 	=> SinputPort(6),
-			wrt 	=> Swrt,
-			wrl 	=> Swrl,     
-			Dout 	=> SDout,
-			reset 	=> sig_mReset,
+			SCLK 	=> outputPort_sync(2),
+			SDX 	=> outputPort_sync(1),
+			notSS   => outputPort_sync(3),
+			Fsh 	=> sig_fn,
+			busy 	=> sig_inputPort(6),
+			wrt 	=> sig_wrt,
+			wrl 	=> sig_wrl,     
+			Dout 	=> sig_dOut,
+			reset 	=> sig_masterReset,
 			DEBUG 	=> DEBUG
 			);
 
 		uTDispenser:TDispenser
 			PORT MAP (
-			Prt 	=> Swrt,
-			RT  	=> SDout(0),
-			Fn		=> Sfn,
-			DId(0) 	=> SDout(1),
-			DId(1) 	=> SDout(2),
-			DId(2) 	=> SDout(3),
-			DId(3) 	=> SDout(4),
-			OId(0) 	=> SDout(5),
-			OId(1) 	=> SDout(6),
-			OId(2) 	=> SDout(7),
-			OId(3) 	=> SDout(8),
+			Prt 	=> sig_wrt,
+			RT  	=> sig_dOut(0),
+			Fn		=> sig_fn,
+			DId(0) 	=> sig_dOut(1),
+			DId(1) 	=> sig_dOut(2),
+			DId(2) 	=> sig_dOut(3),
+			DId(3) 	=> sig_dOut(4),
+			OId(0) 	=> sig_dOut(5),
+			OId(1) 	=> sig_dOut(6),
+			OId(2) 	=> sig_dOut(7),
+			OId(3) 	=> sig_dOut(8),
 			HEX1 	=> HEX1,
 			HEX3 	=> HEX3,
 			HEX5 	=> HEX5,
@@ -111,57 +110,57 @@ Architecture behaviour of TicketMachine is
 		uKeyboard:KeyboardReader
 			PORT MAP (
 			clk 		=> clk,
-			reset 		=> sig_mReset,
+			reset 		=> sig_masterReset,
 			KEYPAD_LIN	=> KEYPAD_LIN,
 			KEYPAD_COL	=> KEYPAD_COL,
-			TXd 		=> SinputPort(5),
-			TXclk 		=> usb_reg(4)
+			TXd 		=> sig_inputPort(5),
+			TXclk 		=> outputPort_sync(4)
 			);
 
 		--Used to synchronize USB port output to system clk
-		usb_reg(0) <= SoutputPort(0) when rising_edge(CLK) else usb_reg(0);
-		usb_reg(1) <= SoutputPort(1) when rising_edge(CLK) else usb_reg(1);
-		usb_reg(2) <= SoutputPort(2) when rising_edge(CLK) else usb_reg(2);
-		usb_reg(3) <= SoutputPort(3) when rising_edge(CLK) else usb_reg(3);
-		usb_reg(4) <= SoutputPort(4) when rising_edge(CLK) else usb_reg(4);
-		usb_reg(5) <= SoutputPort(5) when rising_edge(CLK) else usb_reg(5);
-		usb_reg(6) <= SoutputPort(6) when rising_edge(CLK) else usb_reg(6);
-		usb_reg(7) <= SoutputPort(7) when rising_edge(CLK) else usb_reg(7);
+		outputPort_sync(0) <= sig_outputPort(0) when rising_edge(CLK) else outputPort_sync(0);
+		outputPort_sync(1) <= sig_outputPort(1) when rising_edge(CLK) else outputPort_sync(1);
+		outputPort_sync(2) <= sig_outputPort(2) when rising_edge(CLK) else outputPort_sync(2);
+		outputPort_sync(3) <= sig_outputPort(3) when rising_edge(CLK) else outputPort_sync(3);
+		outputPort_sync(4) <= sig_outputPort(4) when rising_edge(CLK) else outputPort_sync(4);
+		outputPort_sync(5) <= sig_outputPort(5) when rising_edge(CLK) else outputPort_sync(5);
+		outputPort_sync(6) <= sig_outputPort(6) when rising_edge(CLK) else outputPort_sync(6);
+		outputPort_sync(7) <= sig_outputPort(7) when rising_edge(CLK) else outputPort_sync(7);
 
 		-- Reset button
-		sig_mReset <= '0';
+		sig_masterReset <= '0';
 		
 		-- Assignments for LCD
-		LCD_EN 	<= Swrl;
-		LCD_RS 	<= SDout(0);
-		LCD_DATA(0) <= SDout(1);
-		LCD_DATA(1) <= SDout(2);
-		LCD_DATA(2) <= SDout(3);
-		LCD_DATA(3) <= SDout(4);
-		LCD_DATA(4) <= SDout(5);
-		LCD_DATA(5) <= SDout(6);
-		LCD_DATA(6) <= SDout(7);
-		LCD_DATA(7) <= SDout(8);
+		LCD_EN 	<= sig_wrl;
+		LCD_RS 	<= sig_dOut(0);
+		LCD_DATA(0) <= sig_dOut(1);
+		LCD_DATA(1) <= sig_dOut(2);
+		LCD_DATA(2) <= sig_dOut(3);
+		LCD_DATA(3) <= sig_dOut(4);
+		LCD_DATA(4) <= sig_dOut(5);
+		LCD_DATA(5) <= sig_dOut(6);
+		LCD_DATA(6) <= sig_dOut(7);
+		LCD_DATA(7) <= sig_dOut(8);
 
 		-- coin aceptor
-		SinputPort(0) <= Coin(0);
-		SinputPort(1) <= Coin(1);
-		SinputPort(2) <= Coin(2);
-		SinputPort(3) <= HasCoin;
+		sig_inputPort(0) <= Coin(0);
+		sig_inputPort(1) <= Coin(1);
+		sig_inputPort(2) <= Coin(2);
+		sig_inputPort(3) <= HasCoin;
 
 		-- Maintenence Key
-		SinputPort(7) <= SWITCH1;
+		sig_inputPort(7) <= SWITCH1;
 
 		-- LEDs
 		LEDR(0) <= Sensor;
 		LEDR(1) <= SWITCH1;
 		-- LEDR(2) <= ;
 		LEDR(3) <= HasCoin;
-		LEDR(4) <= usb_reg(5); --Accept
+		LEDR(4) <= outputPort_sync(5); --Accept
 		LEDR(5) <= Coin(0);
 		LEDR(6) <= Coin(1);
 		LEDR(7) <= Coin(2);
-		LEDR(8) <= usb_reg(6); --Collect
-		LEDR(9) <= usb_reg(7); --Eject
+		LEDR(8) <= outputPort_sync(6); --Collect
+		LEDR(9) <= outputPort_sync(7); --Eject
 
 END behaviour;
